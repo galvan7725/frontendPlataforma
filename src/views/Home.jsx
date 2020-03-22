@@ -1,10 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import NavBar from '../core/NavBar';
+
 
  class Home extends Component {
     render() {
         return (
             <>
-                <h1>Home of the project</h1>
+                <div className="container-fluid">
+                    <NavBar></NavBar>
+                </div>
             </>
         )
     }
