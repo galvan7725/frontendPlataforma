@@ -13,6 +13,11 @@
   margin-left: 5px;
 }
 
+.separador_nav{
+  border-right: 1px solid white;
+  /*border-left: 1px solid white;*/
+}
+
 
 
 
