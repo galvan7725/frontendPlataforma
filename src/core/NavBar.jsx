@@ -26,10 +26,10 @@ import '../App.css';
                             <ul className="navbar-nav mr-auto" style={{flexDirection:"row"}}>
                             
                             <li className="nav-item separador_nav">
-                                <Link className="nav-link" to={"/Acceso"}><span className="span_nav" >Acceso</span><i className="fas fa-sign-in-alt icon_nav"></i></Link>
+                                <Link className="nav-link link_nav" to={"/Acceso"}><span className="span_nav" >Acceso</span><i className="fas fa-sign-in-alt icon_nav"></i></Link>
                             </li>
-                            <li className="nav-item separador_nav">
-                                <a className="nav-link" href="#"><span className="span_nav" >Registro</span><i className="fas fa-user-plus icon_nav"></i></a>
+                            <li className="nav-item separador_nav" style={{marginLeft:"5px"}} >
+                                <Link className="nav-link link_nav" to={"/Registro"}><span className="span_nav" >Registro</span><i className="fas fa-user-plus icon_nav"></i></Link>
                             </li>
                             
                             </ul>

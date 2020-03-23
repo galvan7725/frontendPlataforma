@@ -18,6 +18,15 @@
   /*border-left: 1px solid white;*/
 }
 
+.link_nav{
+  margin-right: 0px;
+  margin-left: -10px;
+}
+
+.icon_login{
+  font-size: 9rem;
+}
+
 
 
 
@@ -29,5 +38,11 @@
   }
   .icon_nav{
     margin-left: 20px;
+  }
+  .link_nav{
+    margin-right: 25px;
+  }
+  .icon_login{
+    font-size: 5rem;
   }
 }
