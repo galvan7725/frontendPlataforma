@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
 import { singup, singin , authenticate } from '../auth';
 import { Redirect } from 'react-router-dom';
+import Hammer from 'hammerjs';
 
 
  class SignUp extends Component {
@@ -19,8 +20,20 @@ import { Redirect } from 'react-router-dom';
             password2:"",
             error:"",
             loading:"",
-            redirect:false
+            redirect:false,
+            redirectLogin:false
         }
+    }
+
+    componentDidMount = ()=>{
+        let window = document.querySelector('#div_registro');
+        //console.log(window);
+        let hammer = new Hammer(window);
+        hammer.get('swipe').set({direction:Hammer.DIRECTION_RIGHT});
+        hammer.on('swipe',()=>{
+            this.setState({redirectLogin:true});
+            //console.log("swipe");
+        })
     }
 
     handleChange = (name) => (event) =>{
@@ -106,7 +119,7 @@ import { Redirect } from 'react-router-dom';
 
     render() {
 
-        const { name, email, password1, password2 , error, redirect} =  this.state;
+        const { name, email, password1, password2 , error, redirect,redirectLogin} =  this.state;
 
         const styles = {
             input_group : {
@@ -118,12 +131,17 @@ import { Redirect } from 'react-router-dom';
                 <Redirect to={"/Principal"} />
             )
         }
+        if(redirectLogin){
+            return(
+                <Redirect to={"/Acceso"} />
+            )
+        }
 
         return (
             <>
             <div className="container-fluid">
                 <NavBar />
-                <div className="row">
+                <div id="div_registro" className="row">
                 <div className="col-md-2"></div>
                     <div className="col-md-8 text-center">
                         <h4>Nuevo Registro</h4>

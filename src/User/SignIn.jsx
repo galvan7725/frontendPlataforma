@@ -3,6 +3,7 @@ import NavBar from '../core/NavBar';
 import { Link, Redirect } from 'react-router-dom';
 import { singin, authenticate } from '../auth';
 import Swal from 'sweetalert2';
+import Hammer from 'hammerjs';
 
 
  class SignIn extends Component {
@@ -16,9 +17,21 @@ import Swal from 'sweetalert2';
                 password:"",
                 error:"",
                 loading:"",
-                redirect:false
+                redirect:false,
+                redirectSignUp:false
             }
         
+    }
+
+    componentDidMount = ()=>{
+        let window = document.querySelector('#div_login');
+        //console.log(window);
+        let hammer = new Hammer(window);
+        hammer.get('swipe').set({direction:Hammer.DIRECTION_LEFT});
+        hammer.on('swipe',()=>{
+            this.setState({redirectSignUp:true});
+            //console.log("swipe");
+        })
     }
 
     handleChange = (name) => (event) =>{
@@ -72,7 +85,7 @@ import Swal from 'sweetalert2';
 
     render() {
 
-        const { email, password, error, redirect } = this.state;
+        const { email, password, error, redirect, redirectSignUp } = this.state;
 
         const styles = {
             input_group : {
@@ -84,11 +97,16 @@ import Swal from 'sweetalert2';
                 <Redirect to={"/Principal"} />
             )
         }
+        if(redirectSignUp){
+            return(
+                <Redirect to={"/Registro"} />
+            )
+        }
 
         return (
             <div className="container-fluid" >
             <NavBar />
-            <div className="row">
+            <div id="div_login" className="row">
                 
                     <div className="col-md-2"></div>
                     <div className="col-md-8 text-center">
