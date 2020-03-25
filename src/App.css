@@ -114,7 +114,7 @@
 .main_body .sidebar_menu{
 	position: fixed;
   	left: 0;
-  	background: #3421C0;
+  	background: #000;
   	width: 250px;
   	height: 100%;
   	transition: all 0.3s linear;
@@ -141,12 +141,12 @@
 }
 
 .main_body .sidebar_menu ul li a:hover{
-  background: #5343c7;
+  background: #000;
   color: #fff;
 }
 
 .main_body .sidebar_menu ul li a.active{
-  background: #22119d;
+  background: #000;
   color: #fff;
 }
 
@@ -173,7 +173,7 @@
   width: 40px;
   border-radius: 50%;
   height: 40px;
-  background: #3421C0;
+  background: #000;
 }
 
 .main_body .sidebar_menu .hamburger .arrow{
@@ -190,7 +190,8 @@
 	margin-top: 65px;
 	margin-left: 250px;
 	padding: 25px 40px;
-	transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  text-align: center;
 }
 
 .main_body .container .item_wrap{
@@ -232,12 +233,17 @@
   margin-left: 100px;
 }
 
+.sidebar_avatar{
+  width: 100%;
+}
+
 
 
 
 
 
 @media (max-width : 400px){
+  /* Estilos navbar */
   .span_nav {
     display: none;
   }
@@ -250,4 +256,30 @@
   .icon_login{
     font-size: 5rem;
   }
+
+  /* Estilos sidebar */
+  .container{
+    width: 100%;
+
+  }
+  .main_body .container{
+    width: 100%;
+    margin-left: 0px;
+  }
+  .wrapper.active .main_body .container{
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .wrapper.active .sidebar_menu{
+    width: 0px;
+  }
+  .wrapper.active .sidebar_menu ul li a{
+    display: none;
+  }
+
+  .sidebar_avatar{
+    width: 50%;
+  }
+
 }
