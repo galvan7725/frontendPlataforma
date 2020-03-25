@@ -69,7 +69,7 @@ import Hammer from 'hammerjs';
                 name,
                 email,
                 password:password1,
-                role:'admin'
+                role:'user'
             };
     
             if(this.isValid(user)){
