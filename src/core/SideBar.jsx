@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Link, useLocation,useHistory } from 'react-router-dom';
 import '../App.css';
 import $ from 'jquery';
 import Hammer from 'hammerjs';
 import logo from '../logo.svg';
+import { isAuthenticated } from '../auth';
 
  class SideBar extends Component {
 
@@ -22,8 +24,12 @@ import logo from '../logo.svg';
 			$(".hamburger").click(function(){
 			  $(".wrapper").toggleClass("active")
 			})
-		});
+        });
+
+        //let location = useLocation();
+        
     }
+    
 
     render() {
         return (
@@ -32,25 +38,39 @@ import logo from '../logo.svg';
                     <div className="inner__sidebar_menu">
                         <div className="row">
                             <div className="col-md-2"></div>
-                            <div className="col-md-8 text-center">
+                            <div className="col-md-8 text-center" style={{color:"white"}}>
                                 <img className="sidebar_avatar" src={logo} alt="logo"/>
+                                <div className="user_data">
+                                    <h6>{isAuthenticated().user.name}</h6>
+                                    <p>
+                                        {isAuthenticated().user.role}
+                                    </p>
+                                </div>
                             </div>
                             <div className="col-md-2"></div>
                             
                         </div>
-                        <div className="row">
-
+                        <div className="row_sidebar ">
+                            <div className="colum_4 text-center">
+                                    <i className="fas fa-book"></i>
+                            </div>
+                            <div className="colum_4 text-center">
+                                <i className="fas fa-user"></i>
+                            </div>
+                            <div className="colum_4 text-center">
+                                <i className="fas fa-power-off"></i>
+                            </div>
                         </div>
                         <ul>
                         <li>
-                            <a href="#">
+                            <Link to={"/Principal"} id="link_principal" >
                             <span className="icon">
-                                <i className="fas fa-border-all"></i></span>
-                            <span className="list">Dashboard</span>
-                            </a>
+                                <i className="fas fa-home"></i></span>
+                            <span className="list">Inicio</span>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#" className="active">
+                            <a href="#" className="">
                             <span className="icon"><i className="fas fa-chart-pie"></i></span>
                             <span className="list">Charts</span>
                             </a>

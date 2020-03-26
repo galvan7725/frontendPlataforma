@@ -17,20 +17,22 @@ import Hammer from 'hammerjs';
             //this.setState({redirectLogin:true});
             console.log("swipe");
         });
-        
+        console.log(this.props.location.pathname);
+        $("#link_principal").addClass('active');
+
     }
     render() {
         return (
             <>
-                <div class="wrapper">
+                <div className="wrapper">
 
                 <NavBar />
 
-                <div class="main_body">
+                <div className="main_body">
     
                <SideBar/>
 
-            <div class="container" id="contenedor">
+            <div className="container" id="contenedor">
                 <div className="row">
                     <div className="col-md-4">
                         <h1>c1</h1>

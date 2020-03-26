@@ -16,7 +16,8 @@ const MainRouter = () => (
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/Acceso" component={SignIn}></Route>
             <Route exact path="/Registro" component={SignUp}></Route>
-            <Route exact path="/Principal" component={Principal}></Route>
+            <PrivateRoute exact path="/Principal" component={Principal}></PrivateRoute>
+            
             {/* Ruta por defecto (Error 404) */}
             <Route component={NotFound}/>
         </Switch>

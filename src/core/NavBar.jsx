@@ -34,8 +34,12 @@ import { isAuthenticated } from '../auth';
                                 <Link className="nav-link link_nav" to={"/Registro"}><span className="span_nav" >Registro</span><i className="fas fa-user-plus icon_nav"></i></Link>
                             </li>
                             </>)}
+                        
                             
                             </ul>
+
+                            <Link className="nav-link link_nav" to={"/Acceso"}><span className="span_nav" ></span><i className="fas fa-sign-in-alt icon_nav"></i></Link>
+
                             
                         
                         </nav>  

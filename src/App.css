@@ -95,7 +95,7 @@
 
 .wrapper .top_navbar .top_menu .home_link a:hover,
 .wrapper .top_navbar .right_info .icon_wrap:hover {
-    background: #5343c7;
+    background: aquamarine;
 }
 
 .wrapper .top_navbar .right_info{
@@ -125,7 +125,7 @@
 }
 
 .main_body .sidebar_menu ul li a{
-  color: #7467d3;
+  color: white;
   font-size: 18px;
   padding: 20px 35px;
   display: block;
@@ -141,13 +141,13 @@
 }
 
 .main_body .sidebar_menu ul li a:hover{
-  background: #000;
-  color: #fff;
+  background: gray;
+  color: aquamarine;
 }
 
 .main_body .sidebar_menu ul li a.active{
-  background: #000;
-  color: #fff;
+  background: gray;
+  color: aquamarine;
 }
 
 .main_body .sidebar_menu .hamburger{
@@ -211,7 +211,7 @@
 	margin-right: 20px;
 }
 
-/* after adding active class */
+/* after adding active  */
 .wrapper.active .sidebar_menu{
   width: 100px;
 }
@@ -235,6 +235,30 @@
 
 .sidebar_avatar{
   width: 100%;
+}
+.row_sidebar i{
+  color: white;
+  
+}
+
+.row_sidebar{
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrapper.active .sidebar_menu .row_sidebar i{
+  display: none;
+} 
+
+.wrapper.active .sidebar_menu .user_data{
+  display: none;
+}
+
+.colum_4{
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  position: relative;
+    width: 100%;
+    min-height: 1px;
 }
 
 
@@ -280,6 +304,10 @@
 
   .sidebar_avatar{
     width: 50%;
+  }
+
+  .wrapper.active .sidebar_menu .row_sidebar i{
+    display: none;
   }
 
 }
