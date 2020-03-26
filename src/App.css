@@ -236,9 +236,16 @@
 .sidebar_avatar{
   width: 100%;
 }
-.row_sidebar i{
+.row_sidebar i, a{
   color: white;
-  
+  cursor: pointer;
+}
+
+.row_sidebar a:hover{
+  color: aquamarine;
+}
+.row_sidebar i:hover{
+  color: aquamarine;
 }
 
 .row_sidebar{
@@ -259,6 +266,9 @@
   position: relative;
     width: 100%;
     min-height: 1px;
+}
+.wrapper.active .sidebar_menu .div_avatar{
+  padding-left: 0px;
 }
 
 
@@ -309,5 +319,6 @@
   .wrapper.active .sidebar_menu .row_sidebar i{
     display: none;
   }
+  
 
 }

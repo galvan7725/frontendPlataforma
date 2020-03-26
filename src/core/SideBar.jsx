@@ -32,35 +32,49 @@ import { isAuthenticated } from '../auth';
     
 
     render() {
+        let role = isAuthenticated().user.role;
+        switch (role) {
+            case "admin":
+                role= "Administrador"
+                break;
+            case "teacher":
+                role= "Docente"
+                break;    
+            case "user":
+                role= "Estudiante"
+            break;
+            
+        }
         return (
             <>
                  <div className="sidebar_menu" id="sidebar" style={{marginTop:"-9px"}}>
                     <div className="inner__sidebar_menu">
                         <div className="row">
                             <div className="col-md-2"></div>
-                            <div className="col-md-8 text-center" style={{color:"white"}}>
+                            <div className="div_avatar col-md-8 text-center" style={{color:"white"}}>
                                 <img className="sidebar_avatar" src={logo} alt="logo"/>
                                 <div className="user_data">
                                     <h6>{isAuthenticated().user.name}</h6>
                                     <p>
-                                        {isAuthenticated().user.role}
+                                        {role}
                                     </p>
                                 </div>
                             </div>
                             <div className="col-md-2"></div>
                             
                         </div>
-                        <div className="row_sidebar ">
+                        <div className="row_sidebar " style={{color:"white"}}>
                             <div className="colum_4 text-center">
                                     <i className="fas fa-book"></i>
                             </div>
                             <div className="colum_4 text-center">
-                                <i className="fas fa-user"></i>
+                                <Link to={`/User/${isAuthenticated().user._id}`} className="fas fa-user"></Link>
                             </div>
                             <div className="colum_4 text-center">
                                 <i className="fas fa-power-off"></i>
                             </div>
                         </div>
+                        <hr style={{borderTop:"1px dashed white"}} />
                         <ul>
                         <li>
                             <Link to={"/Principal"} id="link_principal" >
