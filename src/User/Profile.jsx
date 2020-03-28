@@ -4,12 +4,26 @@ import '../App.css';
 import $ from 'jquery';
 import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
-
+import { getUser } from './apiUser';
+import { isAuthenticated } from '../auth';
+import logo from '../logo.svg';
+import TimeAgo from 'timeago-react'
+import * as timeago from 'timeago.js';
+import es from 'timeago.js/lib/lang/es'
 
 
    
 
  class Profile extends Component {
+
+
+    constructor (){
+        super();
+        this.state = {
+            user:{follwing:[],followers:[],followingGroup:[]}
+        }
+    }
+
 
     componentDidMount = () =>{
         let window = document.querySelector('#contenedor');
@@ -21,11 +35,68 @@ import Hammer from 'hammerjs';
             //this.setState({redirectLogin:true});
             console.log("swipe");
         });
-        console.log(this.props.location.pathname);
-        $("#link_principal").addClass('active');
+       // console.log(this.props.match.params.userId);
+        const userId = this.props.match.params.userId;
+        this.init(userId);
+
+        $("#link-profile").addClass('active');
+        timeago.register('es',es);
+
 
     }
+
+    init = async (userId) =>{
+        const token = isAuthenticated().token;
+
+        try {
+            const result = await getUser(token,userId);
+            if(result.error){
+
+            }else{
+                this.setState({user:result});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     render() {
+        const { user } = this.state;
+        console.log("%c","orange");
+        console.log(user);
+        let role = user.role;
+
+        switch (role) {
+            case 'admin':
+                role = 'Administrador'
+                break;
+            case 'teacher':
+                 role = 'Docente'
+                 break;    
+            case 'user':
+                 role = 'Estudiante'
+                break;        
+            
+        }
+        
+        const styles = {
+            avatar:{
+                width:"50%",
+                margin:"auto",
+                borderRadius:"50%",
+                border:"2px solid aqua",
+                marginTop:"5px"
+            },
+            separador:{
+                borderTop:"1px dashed white"
+            },
+            div_row:{
+                backgroundColor:"gray",
+                padding:"10px",
+                borderRadius:"20px"
+            }
+        }
+        
         return (
             <>
                 <div className="wrapper">
@@ -36,9 +107,31 @@ import Hammer from 'hammerjs';
 
                     <SideBar/>
 
-                    <div className="container" id="contenedor">
-                        <div className="row">
-                            <h1>Profile</h1>
+                    <div className="container container-fluid" id="contenedor">
+                        <div className="row" style={styles.div_row}>
+                            <div className="col-md-6 text-center" style={{backgroundColor:"black", color:"white",borderRadius:"20px"}}>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="row text-center">
+                                            <img src={logo} alt="logo" style={styles.avatar} />
+                                        </div>
+                                        <h5>{user.name}</h5>
+                                        <hr style={styles.separador} />
+                                        <span>{role}</span>
+                                        <hr/>
+                                        <span>Miembro desde{" "}
+                                             <TimeAgo
+                                            datetime={user.created} 
+                                            locale='es'
+                                            />
+                                         </span>
+                                    </div>
+                                </div>
+                                <div className="row"></div>
+                            </div>
+                            <div className="col-md-6 text-center">
+                                <h1>t2</h1>
+                            </div>
                         </div>
                         </div>
                         </div>

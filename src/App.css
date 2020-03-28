@@ -247,6 +247,10 @@
 .row_sidebar i:hover{
   color: aquamarine;
 }
+ .row_sidebar i.active{
+  background: gray;
+  color: aquamarine;
+}
 
 .row_sidebar{
   display: flex;

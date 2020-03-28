@@ -47,7 +47,7 @@ import { isAuthenticated } from '../auth';
         }
         return (
             <>
-                 <div className="sidebar_menu" id="sidebar" style={{marginTop:"-9px"}}>
+                 <div className="sidebar_menu" id="sidebar" style={{marginTop:"-9px",zIndex:"99"}}>
                     <div className="inner__sidebar_menu">
                         <div className="row">
                             <div className="col-md-2"></div>
@@ -67,7 +67,7 @@ import { isAuthenticated } from '../auth';
                             <div className="colum_4 text-center">
                                     <i className="fas fa-book"></i>
                             </div>
-                            <div className="colum_4 text-center">
+                            <div id="link-profile" className="colum_4 text-center">
                                 <Link to={`/User/${isAuthenticated().user._id}`} className="fas fa-user"></Link>
                             </div>
                             <div className="colum_4 text-center">
