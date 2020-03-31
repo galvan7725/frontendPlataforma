@@ -7,6 +7,7 @@ import SignUp from '../User/SignUp';
 import PrivateRoute from '../auth/PrivateRoute';
 import Principal from '../views/Principal';
 import Profile from '../User/Profile';
+import EditProfile from '../User/EditProfile';
 
 
 const MainRouter = () => (
@@ -19,6 +20,7 @@ const MainRouter = () => (
             <Route exact path="/Registro" component={SignUp}></Route>
             <PrivateRoute exact path="/Principal" component={Principal}></PrivateRoute>
             <PrivateRoute exact path="/User/:userId" component={Profile} ></PrivateRoute>
+            <PrivateRoute exact path="/User/edit/:userId" component={EditProfile} ></PrivateRoute>
             {/* Ruta por defecto (Error 404) */}
             <Route component={NotFound}/>
         </Switch>

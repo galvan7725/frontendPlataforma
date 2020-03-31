@@ -10,6 +10,7 @@ import logo from '../logo.svg';
 import TimeAgo from 'timeago-react'
 import * as timeago from 'timeago.js';
 import es from 'timeago.js/lib/lang/es'
+import { Link  } from 'react-router-dom';
 
 
    
@@ -125,13 +126,28 @@ import es from 'timeago.js/lib/lang/es'
                                             locale='es'
                                             />
                                          </span>
+                                         <p>No control</p>
                                     </div>
                                 </div>
                                 <div className="row"></div>
                             </div>
                             <div className="col-md-6 text-center">
-                                <h1>t2</h1>
-                            </div>
+                                <div className="row" style={{backgroundColor:"black", color:"white",borderRadius:"20px",height:"100%"}}>
+                                    <div className="col-md-4">
+                                        <button className="btn btn-raised btn-success " >Seguir</button>
+                                    </div>
+                                    <div className="col-md-4">
+                                    <button className="btn btn-raised btn-success" >Mensaje</button>
+
+                                    </div>
+                                    <div className="col-md-4">
+                                    {isAuthenticated().user._id == user._id ? (<>
+                                        <Link to={`/User/edit/${isAuthenticated().user._id}`} className="btn btn-raised btn-warning" ><i className="fas fa-user-edit"></i> Editar</Link>
+                                    </>) : (<></>)}
+
+                                    </div> 
+                                </div>
+                           </div>
                         </div>
                         </div>
                         </div>
