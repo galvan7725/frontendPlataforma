@@ -33,6 +33,7 @@ import { isAuthenticated } from '../auth';
 
     render() {
         let role = isAuthenticated().user.role;
+        console.log(isAuthenticated().user);
         switch (role) {
             case "admin":
                 role= "Administrador"
@@ -45,6 +46,9 @@ import { isAuthenticated } from '../auth';
             break;
             
         }
+
+       //const photo = user.photo ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}` : logo;
+
         return (
             <>
                  <div className="sidebar_menu" id="sidebar" style={{marginTop:"-9px",zIndex:"99"}}>
@@ -52,7 +56,7 @@ import { isAuthenticated } from '../auth';
                         <div className="row">
                             <div className="col-md-2"></div>
                             <div className="div_avatar col-md-8 text-center" style={{color:"white"}}>
-                                <img className="sidebar_avatar" src={logo} alt="logo"/>
+                                <img className="sidebar_avatar" src={`${process.env.REACT_APP_API_URL}/user/photo/${isAuthenticated().user._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
                                 <div className="user_data">
                                     <h6>{isAuthenticated().user.name}</h6>
                                     <p>

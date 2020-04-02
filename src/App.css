@@ -235,6 +235,8 @@
 
 .sidebar_avatar{
   width: 100%;
+  border-radius: 50%;
+  border: 1px solid aquamarine;
 }
 .row_sidebar i, a{
   color: white;
@@ -273,6 +275,28 @@
 }
 .wrapper.active .sidebar_menu .div_avatar{
   padding-left: 0px;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: black;
+  display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: red;
 }
 
 

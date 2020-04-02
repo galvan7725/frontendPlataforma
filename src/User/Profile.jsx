@@ -97,6 +97,8 @@ import { Link  } from 'react-router-dom';
                 borderRadius:"20px"
             }
         }
+
+        const photo = user.photo ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}` : logo;
         
         return (
             <>
@@ -114,7 +116,7 @@ import { Link  } from 'react-router-dom';
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="row text-center">
-                                            <img src={logo} alt="logo" style={styles.avatar} />
+                                            <img src={photo} alt="logo" style={styles.avatar} />
                                         </div>
                                         <h5>{user.name}</h5>
                                         <hr style={styles.separador} />
@@ -126,7 +128,7 @@ import { Link  } from 'react-router-dom';
                                             locale='es'
                                             />
                                          </span>
-                                         <p>No control</p>
+                                        <p>No control:{user.noControl}</p>
                                     </div>
                                 </div>
                                 <div className="row"></div>

@@ -12,3 +12,19 @@ export const getUser = (token,userId) =>{
         return response.json();
     }).catch(error => console.log(error));
  };
+
+ export const updateUser = (userId, token, user) => {
+    console.log("USER DATA UPDATE: ", user);
+    return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: user
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
