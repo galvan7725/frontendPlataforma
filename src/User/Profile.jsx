@@ -63,8 +63,8 @@ import { Link  } from 'react-router-dom';
 
     render() {
         const { user } = this.state;
-        console.log("%c","orange");
-        console.log(user);
+        //console.log("%c","orange");
+        //console.log(user);
         let role = user.role;
 
         switch (role) {

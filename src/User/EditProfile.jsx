@@ -8,6 +8,7 @@ import { isAuthenticated } from '../auth';
 import { getUser, updateUser } from './apiUser';
 import logo from '../logo.svg';
 import Swal from 'sweetalert2';
+import { Redirect } from 'react-router-dom';
 
 
  class EditProfile extends Component {
@@ -113,11 +114,13 @@ import Swal from 'sweetalert2';
                         'error'
                       )
                   }else{
-                    Swal.fire(
-                        'Correcto!',
-                        'Sus datos han sido modificados.',
-                        'success'
-                      )
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sus datos han sido modificados',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                      this.setState({redirect:true});
                   }
               } catch (error) {
                   console.log(error);
@@ -198,6 +201,11 @@ import Swal from 'sweetalert2';
                 border:"2px solid aqua",
                 marginTop:"5px"
             }
+        }
+        if(redirect){
+            return(
+                <Redirect to={`/user/${isAuthenticated().user._id}`} />
+            )
         }
         return (
             <>

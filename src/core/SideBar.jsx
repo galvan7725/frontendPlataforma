@@ -33,7 +33,7 @@ import { isAuthenticated } from '../auth';
 
     render() {
         let role = isAuthenticated().user.role;
-        console.log(isAuthenticated().user);
+        //console.log(isAuthenticated().user);
         switch (role) {
             case "admin":
                 role= "Administrador"
