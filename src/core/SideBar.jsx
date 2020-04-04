@@ -88,10 +88,10 @@ import { isAuthenticated } from '../auth';
                             </Link>
                         </li>
                         <li>
-                            <a href="#" className="">
-                            <span className="icon"><i className="fas fa-chart-pie"></i></span>
-                            <span className="list">Charts</span>
-                            </a>
+                            <Link to={`/Grupos/${isAuthenticated().user._id}`} id="link_grupos" >
+                            <span className="icon"><i className="fas fa-users"></i></span>
+                            <span className="list">Grupos</span>
+                            </Link>
                         </li>
                         <li>
                             <a href="#">

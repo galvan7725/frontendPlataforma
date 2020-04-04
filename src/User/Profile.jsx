@@ -128,7 +128,12 @@ import { Link  } from 'react-router-dom';
                                             locale='es'
                                             />
                                          </span>
-                                        <p>No control:{user.noControl}</p>
+
+                                       {role == "Estudiante" ? (
+                                           <>{user.noControl ? (<>
+                                             <p>No control:{user.noControl}</p>
+                                           </>):(<></>)}</>
+                                       ) : (<></>)}
                                     </div>
                                 </div>
                                 <div className="row"></div>

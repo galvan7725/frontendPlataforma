@@ -51,6 +51,8 @@ import { Redirect } from 'react-router-dom';
         const token = isAuthenticated().token;
          try {
              const result = await getUser(token,userId);
+             const { name, email, role, about, noControl } = result;
+             this.setState({name,email,role,about,noControl});
              console.log(result);
          } catch (error) {
              console.log(error);
@@ -226,7 +228,7 @@ import { Redirect } from 'react-router-dom';
                         <label>Editar Perfil</label>
                         <hr/>
                          {newImage ? (<></>) : (<>
-                            <img src={logo} alt="logo" style={styles.avatar}/> 
+                            <img src={`${process.env.REACT_APP_API_URL}/user/photo/${isAuthenticated().user._id}`} onError={i => (i.target.src = `${logo}`)}  alt="logo" style={styles.avatar}/> 
                          </>)}
                             <hr/>
                         <input name="file" id="file" className="inputfile" type="file" accept="image/*"onChange={this.handleChange("photo")} />
