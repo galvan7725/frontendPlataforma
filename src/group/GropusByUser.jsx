@@ -6,10 +6,20 @@ import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
+import { groupsByUser } from './apiGroup';
+import GroupsTab from './GroupsTab';
 
  class GropusByUser extends Component {
 
-    componentDidMount = () =>{
+    constructor(){
+        super();
+        this.state = {
+            error:"",
+            groups:[]
+        }
+    }
+
+    componentDidMount = async() =>{
         let window = document.querySelector('#contenedor');
         //console.log(window);
         let hammer = new Hammer(window);
@@ -21,10 +31,38 @@ import { isAuthenticated } from '../auth';
         });
         console.log(this.props.location.pathname);
         $("#link_grupos").addClass('active');
+        const user = isAuthenticated().user;
+
+        if(user.role == "admin" || user.role == "teacher"){
+           await this.init("teacher");
+        }else{
+            await this.init("student");
+        }
+
+        
+
+    }
+
+    init = async (role) =>{
+        try {
+            const token = isAuthenticated().token;
+            const result = await groupsByUser(token,isAuthenticated().user._id);
+            if(result.error){
+                console.log(result.error);
+            }else{
+                this.setState({groups:result});
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
     render() {
+        const { error, groups } = this.state;
+
+
         return (
             <>
             <div className="wrapper">
@@ -38,7 +76,7 @@ import { isAuthenticated } from '../auth';
         <div className="container" id="contenedor">
             <div className="row">
                <div className="col-md-10">
-                <h3>Grupos</h3>
+                <h4>Grupos</h4>
                </div>
                <div className="col-md-2">
                    {isAuthenticated().user.role == "teacher" || isAuthenticated().user.role == "admin" ? (<>
@@ -47,11 +85,11 @@ import { isAuthenticated } from '../auth';
                </div>
             </div>
             <div className="row">
-                <div className="col-md-2"></div>
-                <div className="col-md-8">
-                    <h1>Todos los grupos</h1>
+                
+                <div className="col-md-12">
+                   <GroupsTab groups={groups} />
                 </div>
-                <div className="col-md-2"></div>
+                
             </div>
         </div>
 </div>
