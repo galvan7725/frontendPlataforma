@@ -22,6 +22,7 @@ import { newGroup, allGroups } from './apiGroup';
              fileSize:0,
              loading:false,
              newImage:false,
+             carrer:""
 
          }
      }
@@ -137,7 +138,7 @@ import { newGroup, allGroups } from './apiGroup';
 
 
     render() {
-        const { redirect, name , description, newImage, error } = this.state;
+        const { redirect, name , description, newImage, error, carrer } = this.state;
 
         if(redirect){
             return (<Redirect to={`/Grupos/${isAuthenticated().user._id}`} />)
@@ -187,8 +188,19 @@ import { newGroup, allGroups } from './apiGroup';
                             <input type="text" onChange={this.handleChange("name")} value={name} className="form-control" id="groupName" placeholder="Nombre" />
                         </div>
                         <div className="form-group text-center" style={styles.input_group}>
-                            <label htmlFor="userEmail">Descripcion:</label>
+                            <label htmlFor="groupDescription">Descripcion:</label>
                             <input type="text" onChange={this.handleChange("description")} value={description} className="form-control" id="groupDescription" placeholder="Ingresa una descripcion"/>
+                        </div>
+                        <div className="form-group text-center" style={styles.input_group}>
+                            <label htmlFor="carrer">Carrera:</label>
+                            <select className="form-control" id="carrer" onChange={this.handleChange("carrer")} value={carrer}>
+                                <option>ISC</option>
+                                <option>TICS</option>
+                                <option>II</option>
+                                <option>IIA</option>
+                                <option>IGE</option>
+                                <option>GASTRONOMIA</option>
+                            </select>
                         </div>
                         
                         

@@ -46,7 +46,7 @@ import GroupsTab from './GroupsTab';
     init = async (role) =>{
         try {
             const token = isAuthenticated().token;
-            const result = await groupsByUser(token,isAuthenticated().user._id);
+            const {result} = await groupsByUser(token,isAuthenticated().user._id);
             if(result.error){
                 console.log(result.error);
             }else{
@@ -62,6 +62,8 @@ import GroupsTab from './GroupsTab';
     render() {
         const { error, groups } = this.state;
 
+        console.log(groups);
+        
 
         return (
             <>
