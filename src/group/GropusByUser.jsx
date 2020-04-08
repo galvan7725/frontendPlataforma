@@ -15,7 +15,13 @@ import GroupsTab from './GroupsTab';
         super();
         this.state = {
             error:"",
-            groups:[]
+            groups:[],
+            groupsISC:[],
+            groupsTICS:[],
+            groupsII:[],
+            groupsIIA:[],
+            groupsIGE:[],
+            groupsG:[]
         }
     }
 
@@ -51,6 +57,7 @@ import GroupsTab from './GroupsTab';
                 console.log(result.error);
             }else{
                 this.setState({groups:result});
+                this.organiceGroups(result);
                 console.log(result);
             }
         } catch (error) {
@@ -59,10 +66,41 @@ import GroupsTab from './GroupsTab';
 
     }
 
-    render() {
-        const { error, groups } = this.state;
+    organiceGroups = (groups) =>{
+        const {groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG } = this.state;
 
-        console.log(groups);
+        groups.map((group,i)=>{
+            switch (group.career) {
+                case 'ISC':
+                    groupsISC.push(group);
+                break;
+                case 'TICS':
+                    groupsTICS.push(group);
+                break;
+                case 'II':
+                    groupsII.push(group);
+                break;
+                case 'IGE':
+                    groupsIGE.push(group);
+                break;
+                case 'IIA':
+                    groupsIIA.push(group);
+                break;
+                case 'GASTRONOMIA':
+                    groupsG.push(group);
+                break;
+            }
+        });
+        this.setState({groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG});
+
+
+
+    }
+
+    render() {
+        const { error, groups,groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG } = this.state;
+
+        console.log("State:",this.state);
         
 
         return (
@@ -89,7 +127,7 @@ import GroupsTab from './GroupsTab';
             <div className="row">
                 
                 <div className="col-md-12">
-                   <GroupsTab groups={groups} />
+                   <GroupsTab groupsISC={groupsISC} groupsTICS={groupsTICS} groupsII={groupsII} groupsIIA={groupsIIA} groupsIGE={groupsIGE} groupsG={groupsG} />
                 </div>
                 
             </div>

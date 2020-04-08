@@ -22,7 +22,7 @@ import { newGroup, allGroups } from './apiGroup';
              fileSize:0,
              loading:false,
              newImage:false,
-             carrer:""
+             carrer:"ISC"
 
          }
      }
@@ -194,7 +194,7 @@ import { newGroup, allGroups } from './apiGroup';
                         <div className="form-group text-center" style={styles.input_group}>
                             <label htmlFor="carrer">Carrera:</label>
                             <select className="form-control" id="carrer" onChange={this.handleChange("carrer")} value={carrer}>
-                                <option>ISC</option>
+                                <option select>ISC</option>
                                 <option>TICS</option>
                                 <option>II</option>
                                 <option>IIA</option>
