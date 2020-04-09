@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import logo from '../logo.svg';
 
  class GroupsTab extends Component {
     
@@ -36,7 +37,22 @@ import React, { Component } from 'react';
                     <div className="card-body" style={styles.cardBody}>
                      {groupsISC.map((group,i)=>{
                        return(
-                       <>{JSON.stringify(group)}</>
+                       <>
+                         <hr/>
+
+                       <div className="row" key={i}>
+                         <div className="col-md-2">
+                           <img src={logo} alt="logo"/>
+                         </div>
+                         <div className="col-md-10">
+                            <h6>{group.name}</h6>
+                            <p>{group.description}</p>
+                            <hr/>
+                       <small>Docente:{" "}{group.teacher.name}</small>
+                         </div>
+                       </div>  
+                       <hr/>                     
+                       </>
                        )
                      })}
                     </div>
