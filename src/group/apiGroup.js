@@ -48,3 +48,17 @@ export const allGroups = (token) => {
          })
          .catch(err => console.log(err));
  };
+
+ export const getGroup = (token,groupId) =>{
+    //const userId = isAuthenticated().user._id;
+    return fetch(`${process.env.REACT_APP_API_URL}/group/${groupId}`,{
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    })
+    .then(response => {
+        return response.json();
+    }).catch(error => console.log(error));
+ };

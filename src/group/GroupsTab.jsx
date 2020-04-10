@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link }  from 'react-router-dom';
 import logo from '../logo.svg';
 
  class GroupsTab extends Component {
@@ -14,8 +15,16 @@ import logo from '../logo.svg';
             alignItems:"center"
           },
           cardBody:{
-            maxHeight: "400px"
+            maxHeight: "400px",
+            overflow:"auto"
+          },
+          imgGroup:{
+            width:"100px"
+          },
+          separator:{
+            border: "1px solid white"
           }
+
           
         };
         
@@ -24,7 +33,7 @@ import logo from '../logo.svg';
             <>
               <div id="accordion">
                 {groupsISC.length == 0 ? (<></>) : (<>
-                  <div className="card">
+                  <div className="card" style={{backgroundColor:"rgba(200,0,0,.5)",color:"white"}}>
                   <div className="card-header" id="headingOne" style={styles.cardTitle}>
                     <h4>I.S.C.</h4>
                       <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -38,20 +47,23 @@ import logo from '../logo.svg';
                      {groupsISC.map((group,i)=>{
                        return(
                        <>
-                         <hr/>
+                         <hr style={styles.separator}/>
 
-                       <div className="row" key={i}>
+                        <Link to={`/Grupo/${group._id}`} >
+                        <div className="row" key={i} >
                          <div className="col-md-2">
-                           <img src={logo} alt="logo"/>
+                           <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/group/photo/${group._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
                          </div>
                          <div className="col-md-10">
                             <h6>{group.name}</h6>
                             <p>{group.description}</p>
-                            <hr/>
+                            <hr style={styles.separator}/>
                        <small>Docente:{" "}{group.teacher.name}</small>
                          </div>
-                       </div>  
-                       <hr/>                     
+                       </div>
+                        </Link>
+
+                       <hr style={styles.separator}/>                     
                        </>
                        )
                      })}
@@ -61,7 +73,7 @@ import logo from '../logo.svg';
                 </>)}
                 
                 {groupsTICS.length == 0 ? (<></>) : (<>
-                  <div className="card">
+                  <div className="card" style={{backgroundColor:"rgba(0,0,200,.5)",color:"white"}}>
                   <div className="card-header" id="headingTwo" style={styles.cardTitle}>
                     <h4 className="mb-0">T.I.C.S.</h4>
                       <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -73,7 +85,25 @@ import logo from '../logo.svg';
                     <div className="card-body" style={styles.cardBody}>
                       {groupsTICS.map((group,i)=>{
                         return(
-                        <>{JSON.stringify(group)}</>
+                          <>
+                          <hr style={styles.separator}/>
+                          
+                          <Link to={`/Grupo/${group._id}`} >
+                              <div className="row" key={i} style={{color:"black"}}>
+                              <div className="col-md-2">
+                                <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/group/photo/${group._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
+                              </div>
+                              <div className="col-md-10">
+                                <h6>{group.name}</h6>
+                                <p>{group.description}</p>
+                                <hr style={styles.separator}/>
+                            <small>Docente:{" "}{group.teacher.name}</small>
+                              </div>
+                            </div>
+                          </Link>
+                          
+                        <hr style={styles.separator}/>                     
+                        </>
                         )
                       })}                    </div>
                   </div>

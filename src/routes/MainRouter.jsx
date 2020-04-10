@@ -10,6 +10,7 @@ import Profile from '../User/Profile';
 import EditProfile from '../User/EditProfile';
 import GropusByUser from '../group/GropusByUser';
 import NewGroup from '../group/NewGroup';
+import SingleGroup from '../group/SingleGroup';
 
 
 const MainRouter = () => (
@@ -25,6 +26,9 @@ const MainRouter = () => (
             <PrivateRoute exact path="/User/edit/:userId" component={EditProfile} ></PrivateRoute>
             <PrivateRoute exact path="/Grupos/:userId" component={GropusByUser} ></PrivateRoute>
             <PrivateRoute exact path="/Grupo/nuevo" component={NewGroup} ></PrivateRoute>
+            <PrivateRoute exact path="/Grupo/:groupId" component={SingleGroup} ></PrivateRoute>
+
+
             {/* Ruta por defecto (Error 404) */}
             <Route component={NotFound}/>
         </Switch>
