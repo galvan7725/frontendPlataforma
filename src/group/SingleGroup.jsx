@@ -6,6 +6,8 @@ import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
 import { getGroup } from './apiGroup';
 import { isAuthenticated } from '../auth';
+import Test from './Test';
+
 
  class SingleGroup extends Component {
 
@@ -64,9 +66,11 @@ import { isAuthenticated } from '../auth';
            <SideBar/>
 
         <div className="container" id="contenedor">
-            <div className="row">
-                <h1>{group.teacher.name}</h1>
-            </div>
+            
+           <Test /> 
+
+
+
         </div>
 </div>
 </div>
