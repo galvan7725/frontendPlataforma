@@ -21,7 +21,8 @@ import GroupsTab from './GroupsTab';
             groupsII:[],
             groupsIIA:[],
             groupsIGE:[],
-            groupsG:[]
+            groupsG:[],
+            loading:false
         }
     }
 
@@ -98,7 +99,7 @@ import GroupsTab from './GroupsTab';
     }
 
     render() {
-        const { error, groups,groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG } = this.state;
+        const { error, groups,groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG,loading } = this.state;
 
         console.log("State:",this.state);
         
@@ -114,6 +115,11 @@ import GroupsTab from './GroupsTab';
            <SideBar/>
 
         <div className="container" id="contenedor">
+            <div className="row">
+                <div className="col-md-12" style={{color:"black"}}>
+                <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                </div>
+            </div>
             <div className="row">
                <div className="col-md-10">
                 <h4>Grupos</h4>

@@ -8,9 +8,17 @@ import { isAuthenticated } from '../auth';
 
  class SideBar extends Component {
 
+    constructor(){
+        super();
+        this.state = {
+            open:true
+        }
+    }
+
 
 
     componentDidMount= () =>{
+        const { open } = this.state;
         let window = document.querySelector('#sidebar');
         //console.log(window);
         let hammer = new Hammer(window);
@@ -22,7 +30,8 @@ import { isAuthenticated } from '../auth';
         });
         $(document).ready(function(){
 			$(".hamburger").click(function(){
-			  $(".wrapper").toggleClass("active")
+              $(".wrapper").toggleClass("active");
+              
 			})
         });
 
