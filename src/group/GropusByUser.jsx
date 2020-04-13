@@ -27,6 +27,7 @@ import GroupsTab from './GroupsTab';
     }
 
     componentDidMount = async() =>{
+        this.setState({loading:true});
         let window = document.querySelector('#contenedor');
         //console.log(window);
         let hammer = new Hammer(window);
@@ -42,6 +43,7 @@ import GroupsTab from './GroupsTab';
 
         if(user.role == "admin" || user.role == "teacher"){
            await this.init("teacher");
+           
         }else{
             await this.init("student");
         }
@@ -56,13 +58,18 @@ import GroupsTab from './GroupsTab';
             const {result} = await groupsByUser(token,isAuthenticated().user._id);
             if(result.error){
                 console.log(result.error);
+                this.setState({loading: false});
+
             }else{
                 this.setState({groups:result});
                 this.organiceGroups(result);
+                this.setState({loading: false});
                 console.log(result);
             }
         } catch (error) {
             console.log(error);
+            this.setState({loading: false});
+
         }
 
     }
@@ -101,7 +108,7 @@ import GroupsTab from './GroupsTab';
     render() {
         const { error, groups,groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG,loading } = this.state;
 
-        console.log("State:",this.state);
+        //console.log("State:",this.state);
         
 
         return (
@@ -115,12 +122,15 @@ import GroupsTab from './GroupsTab';
            <SideBar/>
 
         <div className="container" id="contenedor">
-            <div className="row">
+
+            {loading ? (<>
+                <div className="row">
                 <div className="col-md-12" style={{color:"black"}}>
                 <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                 </div>
             </div>
-            <div className="row">
+            </>) : (<>
+                <div className="row">
                <div className="col-md-10">
                 <h4>Grupos</h4>
                </div>
@@ -137,6 +147,12 @@ import GroupsTab from './GroupsTab';
                 </div>
                 
             </div>
+            </>)}
+
+
+
+            
+            
         </div>
 </div>
 </div>

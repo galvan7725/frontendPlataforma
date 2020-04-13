@@ -49,8 +49,8 @@ import logo from '../logo.svg';
                        <>
                          <hr style={styles.separator}/>
 
-                        <Link to={`/Grupo/${group._id}`} >
-                        <div className="row" key={i} >
+                        <Link to={`/Grupo/${group._id}`}>
+                        <div className="row"  >
                          <div className="col-md-2">
                            <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/group/photo/${group._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
                          </div>
