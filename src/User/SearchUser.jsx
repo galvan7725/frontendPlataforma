@@ -4,6 +4,8 @@ import '../App.css';
 import $ from 'jquery';
 import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
+import { searchUser } from './apiUser';
+import { isAuthenticated } from '../auth';
 
 export default class SearchUser extends Component {
 
@@ -38,6 +40,17 @@ export default class SearchUser extends Component {
         this.setState({[name] : event.target.value});
     }
 
+    callSearch =async(e) =>{
+        e.preventDefault();
+        const { text } = this.state;
+
+        try {
+            const result = await searchUser(isAuthenticated().token,text);
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
 
@@ -94,7 +107,7 @@ export default class SearchUser extends Component {
                             <input type="text" onChange={this.handleChange("text")} value={text} className="form-control" id="text" placeholder="Texto..." />
                         </div>
                         
-                        <button type="submit" className="btn btn-raised btn-primary" style={styles.btnSearch}>
+                        <button type="submit" className="btn btn-raised btn-primary" onClick={this.callSearch} style={styles.btnSearch}>
                             <i class="fa fa-search" aria-hidden="true"></i></button>
                         
                         
