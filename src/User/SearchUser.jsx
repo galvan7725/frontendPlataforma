@@ -6,6 +6,8 @@ import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
 import { searchUser } from './apiUser';
 import { isAuthenticated } from '../auth';
+import logo from '../logo.svg';
+import { Link } from 'react-router-dom';
 
 export default class SearchUser extends Component {
 
@@ -38,33 +40,35 @@ export default class SearchUser extends Component {
 
     handleChange = (name) => (event) =>{
         this.setState({[name] : event.target.value});
+        this.callSearch(event);
     }
 
     callSearch =async(e) =>{
-        e.preventDefault();
-        const { text } = this.state;
+       // e.preventDefault();
+        
+        const  text = e.target.value;
 
-        try {
-            const result = await searchUser(isAuthenticated().token,text);
-            console.log(result);
-        } catch (error) {
-            console.log(error);
+
+        if(text ===""){
+            this.setState({users:[]})
+
+        }else{
+            try {
+                const {user} = await searchUser(isAuthenticated().token,text);
+                console.log(user.length);
+                this.setState({users:user});
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
 
 
-
-
-
-
-
-
-
-
     render() {
 
-        const { text } = this.state;
+        const { text, users } = this.state;
+        console.log(users.length);
 
         const styles = {
             form : {
@@ -74,10 +78,25 @@ export default class SearchUser extends Component {
                 flex:"80"
             },
             btnSearch:{
-                height:"50px",
-                marginTop:"11px"
-            }
+                height:"40px",
+                marginTop:"20px"
+            },
+            cardTitle:{
+                display: "flex",
+                alignItems:"center"
+              },
+              cardBody:{
+                maxHeight: "400px",
+                overflow:"auto"
+              },
+              imgGroup:{
+                width:"100px"
+              },
+              separator:{
+                border: "1px solid black"
+              }
         }
+    
 
         return (
             <>
@@ -107,7 +126,7 @@ export default class SearchUser extends Component {
                             <input type="text" onChange={this.handleChange("text")} value={text} className="form-control" id="text" placeholder="Texto..." />
                         </div>
                         
-                        <button type="submit" className="btn btn-raised btn-primary" onClick={this.callSearch} style={styles.btnSearch}>
+                        <button type="submit" className="btn btn-raised btn-primary" style={styles.btnSearch}>
                             <i class="fa fa-search" aria-hidden="true"></i></button>
                         
                         
@@ -118,8 +137,28 @@ export default class SearchUser extends Component {
                 <div className="row">
                     <div className="col-md-2"></div>
                     <div className="col-md-8">
+                            
+                                    { users.map((user,i)=>{
+                            return(
+                            <>
+                                <hr style={styles.separator}/>
 
-                    </div>
+                               
+                                <div className="row"  >
+                                <div className="col-md-2">
+                                <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
+                                </div>
+                                <div className="col-md-10">
+                                    <h6>{user.name}</h6>
+                                </div>
+                            </div>
+
+                            <hr style={styles.separator}/>                     
+                            </>
+                            )
+                            }) }
+                            </div>
+                            
                     <div className="col-md-2"></div>
                 </div>
             </div>
