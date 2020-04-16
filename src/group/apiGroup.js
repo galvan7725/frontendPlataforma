@@ -62,3 +62,18 @@ export const allGroups = (token) => {
         return response.json();
     }).catch(error => console.log(error));
  };
+
+ export const newUser = (token,groupId,userId) =>{
+    return fetch(`${process.env.REACT_APP_API_URL}/group/newUser/${groupId}/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        }
+       // body: group
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+ }

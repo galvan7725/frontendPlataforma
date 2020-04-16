@@ -15,32 +15,25 @@ export default class SearchUser extends Component {
         super();
         this.state = {
             users:[],
+            usersPush:[],
             text:"",
             loading: false,
             error:""
         }
     }
 
-    componentDidMount = () =>{
-        let window = document.querySelector('#contenedor');
-        //console.log(window);
-        let hammer = new Hammer(window);
-        hammer.get('swipe').set({direction:Hammer.DIRECTION_RIGHT});
-        hammer.on('swipe',()=>{
-            $(".wrapper").toggleClass("active")
-            //this.setState({redirectLogin:true});
-            console.log("swipe");
-        });
-        console.log(this.props.location.pathname);
-        $("#link_principal").addClass('active');
 
-    }
 
 
 
     handleChange = (name) => (event) =>{
         this.setState({[name] : event.target.value});
         this.callSearch(event);
+    }
+
+    handleChangeUsers = () => event =>{
+        event.preventDefault();
+        console.log(event.target.id);
     }
 
     callSearch =async(e) =>{
@@ -68,6 +61,8 @@ export default class SearchUser extends Component {
     render() {
 
         const { text, users } = this.state;
+        const { group } = this.props;
+        console.log("Group search:",group);
         console.log(users.length);
 
         const styles = {
@@ -100,29 +95,15 @@ export default class SearchUser extends Component {
 
         return (
             <>
-                <div className="wrapper">
-
-                <NavBar />
-
-                <div className="main_body">
-    
-               <SideBar/>
-
-            <div className="container" id="contenedor">
-                <div className="row text-center">
-                    <div className="col-md-12">
-                    <h1>SearchUser</h1>
-
-                    </div>
-                </div>
+               
                 <div className="row">
                    
-                    <div className="col-md-2"></div>
-                    <div className="col-md-8">
+                    
+                    <div className="col-md-12">
                     <form style={styles.form}>
                         
                         <div className="form-group" style={styles.formGroup}>
-                            <label htmlFor="exampleInputPassword1">Contraseña</label>
+                            <label htmlFor="exampleInputPassword1">Texto:</label>
                             <input type="text" onChange={this.handleChange("text")} value={text} className="form-control" id="text" placeholder="Texto..." />
                         </div>
                         
@@ -134,36 +115,43 @@ export default class SearchUser extends Component {
                     </div>
                     <div className="col-md-2"></div>
                 </div>
-                <div className="row">
+                <div className="row" style={{height:"400px",maxHeight:"400px"}}>
                     <div className="col-md-2"></div>
                     <div className="col-md-8">
                             
                                     { users.map((user,i)=>{
-                            return(
-                            <>
-                                <hr style={styles.separator}/>
+                                        return(
+                                        <>
+                                            <hr style={styles.separator}/>
 
-                               
-                                <div className="row"  >
-                                <div className="col-md-2">
-                                <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
-                                </div>
-                                <div className="col-md-10">
-                                    <h6>{user.name}</h6>
-                                </div>
-                            </div>
+                                        
+                                            <div className="row"  >
+                                            <div className="col-md-2">
+                                            <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
+                                            </div>
+                                            <div className="col-md-10">
+                                                <h6>{user.name}</h6>
+                                                <hr/>
+                                                <p>{user.noControl}</p>
+                                                <button className="btn btn-raised btn-primary"  onClick={this.handleChangeUsers()} value="" name={`ch${i}`} id={user._id}>
+                                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
 
-                            <hr style={styles.separator}/>                     
-                            </>
-                            )
-                            }) }
+                                        <hr style={styles.separator}/>                     
+                                        </>
+                                        )
+                                        })
+                                     }
                             </div>
                             
-                    <div className="col-md-2"></div>
+                    
                 </div>
-            </div>
-</div>
-</div>
+
+
+
+
                 
             </>
         )

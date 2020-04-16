@@ -12,6 +12,7 @@ import TimeAgo from 'timeago-react'
 import * as timeago from 'timeago.js';
 import es from 'timeago.js/lib/lang/es';
 import { Link, Redirect } from 'react-router-dom';
+import SearchUser from '../User/SearchUser';
 
 
 
@@ -134,9 +135,9 @@ import { Link, Redirect } from 'react-router-dom';
                             <button className="btn btn-block btn-raised btn-success">
                                 Editar
                             </button>
-                            <Link to={`/Usuario/buscar`} className="btn btn-raised btn-success">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i>
-                            </Link>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                 <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            </button>
                         </div>
                         </>) : (<></>)}
 
@@ -162,6 +163,31 @@ import { Link, Redirect } from 'react-router-dom';
                             </div>
                         </div>    
                     </div> 
+
+        
+
+
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Agregar usuarios</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <SearchUser group={group}/>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-raised btn-warning" data-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-raised btn-primary">Agregar</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
 
                 
                 </>)}
