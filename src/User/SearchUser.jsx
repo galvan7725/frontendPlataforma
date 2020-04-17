@@ -8,6 +8,9 @@ import { searchUser } from './apiUser';
 import { isAuthenticated } from '../auth';
 import logo from '../logo.svg';
 import { Link } from 'react-router-dom';
+import { newUser } from '../group/apiGroup';
+import Swal from 'sweetalert2';
+
 
 export default class SearchUser extends Component {
 
@@ -31,9 +34,61 @@ export default class SearchUser extends Component {
         this.callSearch(event);
     }
 
-    handleChangeUsers = () => event =>{
+    handleChangeUsers = () => async event =>{
         event.preventDefault();
         console.log(event.target.id);
+        const token = isAuthenticated().token;
+        const data ={newUserId:event.target.id,
+                     groupId:this.props.group._id            
+        }
+
+        Swal.fire({
+            title: 'Esta seguro?',
+            text: "Se agregara un usuario al grupo",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0f0',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, adelante!'
+          }).then(async(result) => {
+            if (result.value) {
+             //continuar
+
+              try {
+                  const result = await newUser(token,data);
+                  if(result.error || !result){
+                    Swal.fire(
+                        'Error!',
+                        'No se ha podido completar la accion.',
+                        'error'
+                      )
+                  }else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se añadio el usuario',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                      this.setState({redirect:true});
+                  }
+              } catch (error) {
+                  console.log(error);
+                  Swal.fire(
+                    'Error!',
+                    'No se ha podido completar la accion.',
+                    'error'
+                  )
+              }  
+
+              
+            }else{
+                //calcel
+
+            }
+          })
+
+
+
     }
 
     callSearch =async(e) =>{

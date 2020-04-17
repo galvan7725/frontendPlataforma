@@ -4,7 +4,7 @@ import '../App.css';
 import $ from 'jquery';
 import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
-import { getGroup } from './apiGroup';
+import { getGroup, newUser } from './apiGroup';
 import { isAuthenticated } from '../auth';
 import './Test.css';
 import logo from '../logo.svg';
@@ -13,6 +13,7 @@ import * as timeago from 'timeago.js';
 import es from 'timeago.js/lib/lang/es';
 import { Link, Redirect } from 'react-router-dom';
 import SearchUser from '../User/SearchUser';
+
 
 
 

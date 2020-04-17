@@ -63,14 +63,14 @@ export const allGroups = (token) => {
     }).catch(error => console.log(error));
  };
 
- export const newUser = (token,groupId,userId) =>{
-    return fetch(`${process.env.REACT_APP_API_URL}/group/newUser/${groupId}/${userId}`, {
+ export const newUser = (token,data) =>{
+    return fetch(`${process.env.REACT_APP_API_URL}/group/newUser`, {
         method: "POST",
         headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`
-        }
-       // body: group
+        },
+        body: data
     })
         .then(response => {
             return response.json();
