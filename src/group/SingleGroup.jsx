@@ -116,9 +116,9 @@ import SearchUser from '../User/SearchUser';
                             </small>
                             <hr/>
 
-                            {/*<small>
+                            {<small>
                                 {group.users.length}{" "}Usuarios
-                            </small>*/}
+                            </small>}
                             
                         </div>
                         <div className="col-md-8">

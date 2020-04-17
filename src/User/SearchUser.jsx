@@ -41,6 +41,8 @@ export default class SearchUser extends Component {
         const data ={newUserId:event.target.id,
                      groupId:this.props.group._id            
         }
+        const aux1 = this.props.group._id;
+        const aux2 =event.target.id;
 
         Swal.fire({
             title: 'Esta seguro?',
@@ -55,11 +57,11 @@ export default class SearchUser extends Component {
              //continuar
 
               try {
-                  const result = await newUser(token,data);
+                  const result = await newUser(token,aux2,aux1);
                   if(result.error || !result){
                     Swal.fire(
                         'Error!',
-                        'No se ha podido completar la accion.',
+                        result.error,
                         'error'
                       )
                   }else{
@@ -75,7 +77,7 @@ export default class SearchUser extends Component {
                   console.log(error);
                   Swal.fire(
                     'Error!',
-                    'No se ha podido completar la accion.',
+                     error,
                     'error'
                   )
               }  
@@ -111,14 +113,30 @@ export default class SearchUser extends Component {
         }
     }
 
+    checkUser = (userId) =>{
+        const { group } = this.props;
+        let aux = false;
+        for (let index = 0; index < group.users.length; index++) {
+            let groupA = group.users[index];
+
+            if(groupA._id == userId){
+                aux = true;
+            }
+            
+        }
+
+        return aux;
+    }
+
 
 
     render() {
 
         const { text, users } = this.state;
         const { group } = this.props;
-        console.log("Group search:",group);
-        console.log(users.length);
+
+        console.log("Group search:",group.users);
+        console.log("Users search",users);
 
         const styles = {
             form : {
@@ -188,9 +206,20 @@ export default class SearchUser extends Component {
                                                 <h6>{user.name}</h6>
                                                 <hr/>
                                                 <p>{user.noControl}</p>
-                                                <button className="btn btn-raised btn-primary"  onClick={this.handleChangeUsers()} value="" name={`ch${i}`} id={user._id}>
-                                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                                </button>
+
+
+                                                {this.checkUser(user._id)  ? (<>
+                                                    <button className="btn btn-raised btn-warning">
+                                                        x
+                                                    </button>
+                                                    
+                                                </>) : (<>
+                                                    <button className="btn btn-raised btn-primary"  onClick={this.handleChangeUsers()} value="" name={`ch${i}`} id={user._id}>
+                                                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                                    </button>                                                    
+                                                </>)}
+
+
                                             </div>
                                         </div>
 
