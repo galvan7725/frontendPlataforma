@@ -71,7 +71,10 @@ export default class SearchUser extends Component {
                         showConfirmButton: false,
                         timer: 1500
                       })
-                      this.setState({redirect:true});
+                      //this.props.group = result;
+                      console.log(result);
+
+                      this.props.updateGroup(result.result);
                   }
               } catch (error) {
                   console.log(error);
@@ -209,9 +212,7 @@ export default class SearchUser extends Component {
 
 
                                                 {this.checkUser(user._id)  ? (<>
-                                                    <button className="btn btn-raised btn-warning">
-                                                        x
-                                                    </button>
+                                                    <small className="text-danger">El usuario ya pertenece al grupo</small>
                                                     
                                                 </>) : (<>
                                                     <button className="btn btn-raised btn-primary"  onClick={this.handleChangeUsers()} value="" name={`ch${i}`} id={user._id}>

@@ -4,7 +4,7 @@ import '../App.css';
 import $ from 'jquery';
 import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
-import { getGroup, newUser } from './apiGroup';
+import { getGroup, newUser, deleteUser } from './apiGroup';
 import { isAuthenticated } from '../auth';
 import './Test.css';
 import logo from '../logo.svg';
@@ -13,6 +13,7 @@ import * as timeago from 'timeago.js';
 import es from 'timeago.js/lib/lang/es';
 import { Link, Redirect } from 'react-router-dom';
 import SearchUser from '../User/SearchUser';
+import Swal from 'sweetalert2';
 
 
 
@@ -71,15 +72,92 @@ import SearchUser from '../User/SearchUser';
       
     }
 
+    removeUser = async(userId)=>{
+        console.log(userId);
+        const { group } = this.state;
+        const token = isAuthenticated().token;
+        const groupId = this.state.group._id;
+        const teacherId = isAuthenticated().user._id;
+        let { users } = group;
+
+
+
+        Swal.fire({
+            title: 'Esta seguro?',
+            text: "Se eliminara el usuario del grupo",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0f0',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, adelante!'
+          }).then(async(result) => {
+            if (result.value) {
+             //continuar
+
+              try {
+                  const result = await deleteUser(token,userId,groupId,teacherId);
+                  if(result.error || !result){
+                    Swal.fire(
+                        'Error!',
+                        result.error,
+                        'error'
+                      )
+                  }else{
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se elimino el usuario',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                      this.setState({group:result});
+                  }
+              } catch (error) {
+                  console.log(error);
+                  Swal.fire(
+                    'Error!',
+                     error,
+                    'error'
+                  )
+              }  
+
+              
+            }else{
+                //calcel
+
+            }
+          })
+
+          //this.setState({group});
+    }
+    updateGroup = (group) => {
+        this.setState({group:group});
+    }
+
 
 
     render() {
         const { group, error,loading } = this.state;
+        const { users } = group;
 
         const styles = {
             imgGroup : {
                 width: "100px"
-            }
+            },
+            separator:{
+                border: "1px solid black"
+              },
+              cardTitle:{
+                display: "flex",
+                alignItems:"center"
+              },
+              cardBody:{
+                maxHeight: "400px",
+                overflow:"auto"
+              },
+              imgGroup:{
+                width:"100px"
+              },
         }
 
         console.log("Grupo: ",group);
@@ -116,10 +194,10 @@ import SearchUser from '../User/SearchUser';
                             </small>
                             <hr/>
 
-                            {<small>
+                            {<small style={{color:"black",cursor:"pointer"}} data-toggle="modal" data-target="#exampleModal2">
                                 {group.users.length}{" "}Usuarios
                             </small>}
-                            
+                            <hr/>
                         </div>
                         <div className="col-md-8">
                          <h5>{group.name}</h5>
@@ -179,12 +257,73 @@ import SearchUser from '../User/SearchUser';
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <SearchUser group={group}/>
+                                        <SearchUser group={group} updateGroup={this.updateGroup}/>
                                     </div>
                                     <div class="modal-footer">
 
                                         <button type="button" class="btn btn-raised btn-warning" data-dismiss="modal">Cerrar</button>
                                         <button type="button" class="btn btn-raised btn-primary">Agregar</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                {//Modal usuarios del grupo
+                                }
+
+                                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Usuarios del grupo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div className="row" style={{height:"400px",maxHeight:"400px"}}>
+                                                    <div className="col-md-2"></div>
+                                                    <div className="col-md-8">
+                                                            
+                                                                    { users.map((user,i)=>{
+                                                                        return(
+                                                                        <>
+                                                                            <hr style={styles.separator}/>
+
+                                                                        
+                                                                            <div className="row"  >
+                                                                            <div className="col-md-2">
+                                                                            <img style={styles.imgGroup} src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo"/>
+                                                                            </div>
+                                                                            <div className="col-md-10">
+                                                                                <h6>{user.name}</h6>
+                                                                                <hr/>
+                                                                                <p>{user.noControl}</p>
+                                                                                <small>{user.email}</small>
+                                                                                { isAuthenticated().user._id === group.teacher._id ? (<>
+                                                                                    <button className="btn btn-danger" onClick={() =>this.removeUser(user._id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                                                </>) : (<></>)}
+                                                                                
+
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <hr style={styles.separator}/>                     
+                                                                        </>
+                                                                        )
+                                                                        })
+                                                                    }
+                                                            </div>
+                                                            
+                                                    
+                                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-raised btn-warning" data-dismiss="modal">Cerrar</button>
+                                        
                                     </div>
                                     </div>
                                 </div>
