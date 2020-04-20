@@ -211,7 +211,7 @@ import { Redirect } from 'react-router-dom';
         }
         return (
             <>
-                <div className="wrapper">
+                <div className="wrapper active">
 
                 <NavBar />
 

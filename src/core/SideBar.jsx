@@ -38,9 +38,16 @@ import { isAuthenticated } from '../auth';
         //let location = useLocation();
         
     }
+
+    handleChange = name => event => {
+
+    }
     
 
     render() {
+        const { status } = this.props;
+
+
         let role = isAuthenticated().user.role;
         //console.log(isAuthenticated().user);
         switch (role) {

@@ -164,7 +164,7 @@ import Swal from 'sweetalert2';
 
         return (
             <>
-            <div className="wrapper">
+            <div className="wrapper active">
 
             <NavBar />
 

@@ -159,7 +159,7 @@ import { newGroup, allGroups } from './apiGroup';
 
         return (
             <>
-            <div className="wrapper">
+            <div className="wrapper active">
 
             <NavBar />
 

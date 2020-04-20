@@ -6,8 +6,9 @@ import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
-import { groupsByUser } from './apiGroup';
+import { groupsByUser, groupsByTeacher } from './apiGroup';
 import GroupsTab from './GroupsTab';
+import GroupsTabStudent from './GroupsTabStudent';
 
  class GropusByUser extends Component {
 
@@ -53,19 +54,42 @@ import GroupsTab from './GroupsTab';
     }
 
     init = async (role) =>{
+        console.log(role);
+        const token = isAuthenticated().token;
+
         try {
-            const token = isAuthenticated().token;
-            const {result} = await groupsByUser(token,isAuthenticated().user._id);
-            if(result.error){
-                console.log(result.error);
-                this.setState({loading: false});
+
+            if(role === "teacher"){
+                const {result} = await groupsByTeacher(token,isAuthenticated().user._id);
+                    if(result.error){
+                        console.log(result.error);
+                        this.setState({loading: false});
+
+                    }else{
+                        this.setState({groups:result});
+                        this.organiceGroups(result);
+                        this.setState({loading: false});
+                        console.log(result);
+                    }
 
             }else{
-                this.setState({groups:result});
-                this.organiceGroups(result);
-                this.setState({loading: false});
-                console.log(result);
+                const {result} = await groupsByUser(token,isAuthenticated().user._id);
+                
+                    if(result.error){
+                        console.log(result.error);
+                        this.setState({loading: false});
+
+                    }else{
+                        this.setState({groups:result});
+                        this.organiceGroups(result);
+                        this.setState({loading: false});
+                        console.log(result);
+                    }
+
+
             }
+            
+            
         } catch (error) {
             console.log(error);
             this.setState({loading: false});
@@ -113,7 +137,7 @@ import GroupsTab from './GroupsTab';
 
         return (
             <>
-            <div className="wrapper">
+            <div className="wrapper active">
 
             <NavBar />
 
@@ -143,7 +167,11 @@ import GroupsTab from './GroupsTab';
             <div className="row">
                 
                 <div className="col-md-12">
-                   <GroupsTab groupsISC={groupsISC} groupsTICS={groupsTICS} groupsII={groupsII} groupsIIA={groupsIIA} groupsIGE={groupsIGE} groupsG={groupsG} />
+                    {isAuthenticated().user.role == "admin" || !isAuthenticated().user.role == "teacher" ? (<>
+                        <GroupsTab groupsISC={groupsISC} groupsTICS={groupsTICS} groupsII={groupsII} groupsIIA={groupsIIA} groupsIGE={groupsIGE} groupsG={groupsG} />
+                    </>) : (<>
+                        <GroupsTabStudent groups={groups} />
+                    </>)}
                 </div>
                 
             </div>
