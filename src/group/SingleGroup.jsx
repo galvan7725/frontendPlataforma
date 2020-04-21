@@ -217,6 +217,7 @@ import Swal from 'sweetalert2';
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                                  <i class="fa fa-user-plus" aria-hidden="true"></i>
                             </button>
+                            <Link to={`/Grupo/Administrador/${group._id}`} className="btn btn-success">Administrar</Link>
                         </div>
                         </>) : (<></>)}
 

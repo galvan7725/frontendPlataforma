@@ -127,12 +127,16 @@ import { isAuthenticated } from '../auth';
                             <span className="list">Blogs</span>
                             </a>
                         </li>
-                        <li>
+                        { isAuthenticated().user.role ==="admin" ? (<>
+                            <li>
                             <a href="#">
-                            <span className="icon"><i className="fas fa-map-marked-alt"></i></span>
-                            <span className="list">Maps</span>
+                            <span className="icon"><i class="fa fa-shield" aria-hidden="true"></i></span>
+                            <span className="list">Administrador</span>
                             </a>
                         </li>
+                        </>) : (<></>)
+                        
+                        }
                         </ul>
 
                         <div className="hamburger">
