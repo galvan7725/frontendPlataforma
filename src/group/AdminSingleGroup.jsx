@@ -7,6 +7,11 @@ import Hammer from 'hammerjs';
 import { Link} from 'react-router-dom';
 import {isAuthenticated} from '../auth';
 import FileViewer from 'react-file-viewer';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import logo from '../logo.svg';
+import logoPDF from '../images/pdf.png';
+import logoWord from '../images/doc.png';
 
  class AdminSingleGroup extends Component {
 
@@ -41,16 +46,11 @@ import FileViewer from 'react-file-viewer';
 
     handleChange = name => event => {
         this.setState({ error: "" });
-        let aux = [];
+       
         if(name === "file"){
-        console.log(event.target.files.length);
-        for (let index = 0; index < event.target.files.length; index++) {
-            aux.push(event.target.files[index]);
-            
-        }
-        this.setState({files:aux});
-        this.publicationData.set("files", aux);
 
+            this.loadFile(event);
+        
         }else{
         const value = event.target.value;
         this.setState({ [name]: value});
@@ -70,6 +70,49 @@ import FileViewer from 'react-file-viewer';
     clickSubmit = async event => {
 
     }
+
+    loadFile = (event) =>{
+        
+        let aux = [];
+
+        console.log(event.target.files.length);
+        for (let index = 0; index < event.target.files.length; index++) {
+            aux.push(event.target.files[index]);
+            
+        }
+        this.setState({files:aux});
+        this.publicationData.set("files", aux);
+
+
+        for (let index = 0; index < event.target.files.length; index++) {
+            this.readImage(event,index);
+            
+        }
+        
+        this.setState({newImage:true});
+        //this.setState({fileSize:event.target.files[0].size});
+
+      
+  }
+
+  readImage = (event,index) => {
+    let reader = new FileReader();
+    if(event.target.files[index].type == "application/pdf"){
+        console.log("Archivo pdf");
+
+    }else if(event.target.files[index].type == "application/msword"){
+        console.log("Archivo word");
+    }else{
+        reader.onload = function(){
+            var output = document.getElementById('img'+index);
+            output.src = reader.result;
+          };
+          reader.readAsDataURL(event.target.files[index]);
+
+    }
+
+
+  }
 
 
 
@@ -133,22 +176,44 @@ import FileViewer from 'react-file-viewer';
                                         <div className="row">
                                             <div className="col-md-12">
                                             <form encType="multipart/form-data">  
-                                                    <input name="files" id="files" className="inputfile" type="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"  onChange={this.handleChange("file")} multiple />
+                                                    <input name="files" id="files" className="inputfile" type="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"  onChange={this.handleChange("file")} multiple webkitdirectory />
                                                     <label htmlFor="files">Selecciona archivos</label>
                                                         <br/>
                                                         <small className="text-danger">{files.length} {" "}Archivos seleccionados</small>
                                                         <hr/>
-                                                        {files.length === 0 ? (<></>) : (<>
-                                                            {files.map((file, index) =>{
-                                                                <FileViewer>
-                                                                    fileType={file.type}
-                                                                    filePath={file.path}
-                                                                    errorComponent={()=>{console.log("Error file view")}}
-                                                                    onError={()=>{console.log("Error file view")}}
-                                                                </FileViewer>
-                                                            })}
-                                                            
-                                                        </>)}
+                                                        <Carousel style={{width: "200px"}}>
+                                                        { 
+                                                            files.map((file,i)=>{
+                                                                console.log("File: ",file);
+                                                                return (
+                                                                    <div key={i}>
+                                                                        {file.type == "application/pdf" || file.type == "application/msword" ? (<>
+                                                                            {file.type == "application/pdf" ? (<>
+                                                                                <img id={`img${i}`} src={logoPDF} alt ="loading..."/>
+
+                                                                            </>) : (<>
+                                                                                <img id={`img${i}`} src={logoWord} alt ="loading..."/>
+                                                                            </>)}
+                                                                        
+                                                                        </>) : (<>
+                                                                            <img id={`img${i}`} alt ="loading..."/>
+                                                                        </>)}
+
+                                                                        <p className="legend">{file.name}</p>
+
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+
+                                                        </Carousel>
+                                                        
+                                                     
+                                                        
+            
+                                                        
+                                                        
+                                                        
 
                                                     <div className="form-group" style={styles.input_group}>
                                                         <label htmlFor="userName">Nombre del grupo:</label>
