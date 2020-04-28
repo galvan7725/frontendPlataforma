@@ -6,6 +6,7 @@ import SideBar from '../core/SideBar';
 import Hammer from 'hammerjs';
 import { Link} from 'react-router-dom';
 import {isAuthenticated} from '../auth';
+import FileViewer from 'react-file-viewer';
 
  class AdminSingleGroup extends Component {
 
@@ -137,7 +138,17 @@ import {isAuthenticated} from '../auth';
                                                         <br/>
                                                         <small className="text-danger">{files.length} {" "}Archivos seleccionados</small>
                                                         <hr/>
-                                                    
+                                                        {files.length === 0 ? (<></>) : (<>
+                                                            {files.map((file, index) =>{
+                                                                <FileViewer>
+                                                                    fileType={file.type}
+                                                                    filePath={file.path}
+                                                                    errorComponent={()=>{console.log("Error file view")}}
+                                                                    onError={()=>{console.log("Error file view")}}
+                                                                </FileViewer>
+                                                            })}
+                                                            
+                                                        </>)}
 
                                                     <div className="form-group" style={styles.input_group}>
                                                         <label htmlFor="userName">Nombre del grupo:</label>
