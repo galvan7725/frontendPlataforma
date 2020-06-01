@@ -106,7 +106,7 @@ import Hammer from 'hammerjs';
         return (
             <div className="container-fluid" >
             <NavBar />
-            <div id="div_login" className="row">
+            <div id="div_login" className="row" style={{marginTop:"25px"}}>
                 
                     <div className="col-md-2"></div>
                     <div className="col-md-8 text-center">

@@ -87,6 +87,7 @@ import Hammer from 'hammerjs';
                         Swal.fire({
                             type: 'success',
                             title: 'Correcto',
+                            icon:'success',
                             text: 'Bienvenido',
                             timer: 2000
                           });
@@ -141,7 +142,7 @@ import Hammer from 'hammerjs';
             <>
             <div className="container-fluid">
                 <NavBar />
-                <div id="div_registro" className="row">
+                <div id="div_registro" className="row" style={{marginTop:"25px"}}>
                 <div className="col-md-2"></div>
                     <div className="col-md-8 text-center">
                         <h4>Nuevo Registro</h4>

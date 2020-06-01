@@ -168,7 +168,12 @@ import GroupsTabStudent from './GroupsTabStudent';
                 
                 <div className="col-md-12">
                     {isAuthenticated().user.role == "admin" || !isAuthenticated().user.role == "teacher" ? (<>
-                        <GroupsTab groupsISC={groupsISC} groupsTICS={groupsTICS} groupsII={groupsII} groupsIIA={groupsIIA} groupsIGE={groupsIGE} groupsG={groupsG} />
+                        {groups.length == 0 ? (<>
+                            <h3>No se creado ningun grupo</h3>
+                        </>) : (<>
+                            <GroupsTab groupsISC={groupsISC} groupsTICS={groupsTICS} groupsII={groupsII} groupsIIA={groupsIIA} groupsIGE={groupsIGE} groupsG={groupsG} />
+                        </>)}
+                        
                     </>) : (<>
                         <GroupsTabStudent groups={groups} />
                     </>)}
