@@ -206,7 +206,7 @@ import { newGroup, allGroups } from './apiGroup';
                         
                         <button type="submit" onClick={this.clickSubmit} className="btn btn-raised btn-primary">Aceptar</button>
                         <Link to={`/Grupos/${isAuthenticated().user._id}`} className="btn btn-raised btn-danger ml-2">Cancelar</Link>
-                        </form>
+                    </form>
                         { error != "" ? (<div className="alert alert-danger" role="alert">
                                             {`error : ${error}`}
                                         </div>):(<></>)}
