@@ -4,9 +4,9 @@ import "../App.css";
 import $ from "jquery";
 import SideBar from "../core/SideBar";
 import Hammer from "hammerjs";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { isAuthenticated } from "../auth";
-import FileViewer from "react-file-viewer";
+import { getGroup } from "./apiGroup";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import logo from "../logo.svg";
@@ -20,6 +20,11 @@ class AdminSingleGroup extends Component {
       redirect: false,
       error: "",
       files: [],
+      name:"",
+      description:"",
+      teacher:{},
+      carrer:"",
+      users:[],
     };
   }
 
@@ -37,8 +42,35 @@ class AdminSingleGroup extends Component {
     //console.log(this.props.location.pathname);
     $("#link_grupos").addClass("active");
     const groupId = this.props.match.params.groupId;
-    await this.init(groupId);
+    if(isAuthenticated().user.role === "admin" || isAuthenticated().user.role === "teacher"){
+      await this.init(groupId);
+    }else{
+      this.setState({redirect:true});
+    }
   };
+
+  init = async (groupId) => {
+    //console.log(groupId);
+
+    try {
+      const result = await getGroup(isAuthenticated().token, groupId);
+      if(result.error || !result){
+        console.log("Error fetch group");
+      }else{
+        const { name, description,career,teacher,users} = result;
+        this.setState({name,description,carrer:career,teacher,users});
+       if(!teacher._id === isAuthenticated().user._id){
+          this.setState({redirect:true});
+       }
+       console.log("Result: ",result);
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
 
   handleChange = (name) => (event) => {
     this.setState({ error: "" });
@@ -54,7 +86,6 @@ class AdminSingleGroup extends Component {
     console.log("Form", this.publicationData);
   };
 
-  init = async (groupId) => {};
 
   clickSubmit = async (event) => {};
 
@@ -93,6 +124,10 @@ class AdminSingleGroup extends Component {
 
   render() {
     const { redirect, files, error } = this.state;
+
+    if(redirect){
+      return (<Redirect to={`/Grupos/${isAuthenticated().user._id}`} />)
+  }
 
     const styles = {
       input_group: {
@@ -142,7 +177,7 @@ class AdminSingleGroup extends Component {
         <div
           class="modal fade"
           id="exampleModalCenter"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalCenterTitle"
           aria-hidden="true"
@@ -174,7 +209,6 @@ class AdminSingleGroup extends Component {
                         accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
                         onChange={this.handleChange("file")}
                         multiple
-                        webkitdirectory
                       />
                       <label htmlFor="files">Selecciona archivos</label>
                       <br />
