@@ -6,17 +6,19 @@ import SideBar from "../core/SideBar";
 import Hammer from "hammerjs";
 import { Link, Redirect } from "react-router-dom";
 import { isAuthenticated } from "../auth";
-import { getGroup } from "./apiGroup";
+import { getGroup,newPublication } from "./apiGroup";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import logo from "../logo.svg";
 import logoPDF from "../images/pdf.png";
 import logoWord from "../images/doc.png";
+import Swal from 'sweetalert2';
 
 class AdminSingleGroup extends Component {
   constructor() {
     super();
     this.state = {
+      idGroup:"",
       redirect: false,
       error: "",
       files: [],
@@ -25,6 +27,11 @@ class AdminSingleGroup extends Component {
       teacher:{},
       carrer:"",
       users:[],
+      title:"",
+      descriptionN:"",
+      type:"activity",
+      expiration:"",
+      countFiles:0
     };
   }
 
@@ -57,8 +64,8 @@ class AdminSingleGroup extends Component {
       if(result.error || !result){
         console.log("Error fetch group");
       }else{
-        const { name, description,career,teacher,users} = result;
-        this.setState({name,description,carrer:career,teacher,users});
+        const { name, description,career,teacher,users,_id} = result;
+        this.setState({name,description,carrer:career,teacher,users,idGroup:_id});
        if(!teacher._id === isAuthenticated().user._id){
           this.setState({redirect:true});
        }
@@ -76,6 +83,7 @@ class AdminSingleGroup extends Component {
     this.setState({ error: "" });
 
     if (name === "file") {
+      //this.clearFiles();
       this.loadFile(event);
     } else {
       const value = event.target.value;
@@ -83,11 +91,78 @@ class AdminSingleGroup extends Component {
       this.publicationData.set(name, value);
       //aux = event.target.files;
     }
-    console.log("Form", this.publicationData);
+    //console.log("Form", this.publicationData);
   };
 
 
-  clickSubmit = async (event) => {};
+  clickSubmit = async (event) => {
+    event.preventDefault();
+    const {idGroup,files,type,countFiles} = this.state;
+    this.publicationData.append("type",type);
+    this.publicationData.append("countFiles",countFiles);
+    const token = isAuthenticated().token;
+
+    console.log(files);
+
+    
+
+    Swal.fire({
+      title: 'Esta seguro?',
+      text: "Se creara la plublicacion",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Adelante'
+    }).then(async(result) => {
+      if (result.value) {
+        try {
+          
+          const result = await newPublication(token,idGroup,this.publicationData);
+          if(result.error || !result){
+            console.log("Error fetch newPublication");
+          }else{
+            console.log("Result: ",result);
+            this.publicationData = new FormData();
+            const btnD = document.querySelector("#btnModalCancel");
+            btnD.click();
+            //modal.classList.remove("show");
+            
+          }
+
+
+        } catch (error) {
+          console.log(error);
+        }
+        /*
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        */
+      }else{
+
+      }
+    })
+
+  };
+
+  resetNew = (event) => {
+    event.preventDefault();
+    const form = document.querySelector("#formP");
+    form.reset();
+    this.setState({files:[],title:"",descriptionN:"",type:"activity",expiration:""});
+  }
+
+  clearFiles = () =>{
+    const { countFiles } = this.state;
+     for (let index = 0; index < countFiles.length; index++) {
+      this.publicationData.delete("file"+(index+1));
+     }
+
+    
+  }
 
   loadFile = (event) => {
     let aux = [];
@@ -96,11 +171,13 @@ class AdminSingleGroup extends Component {
     for (let index = 0; index < event.target.files.length; index++) {
       aux.push(event.target.files[index]);
     }
-    this.setState({ files: aux });
+    this.setState({ files: aux,countFiles:aux.length });
     this.publicationData.set("files", aux);
+
 
     for (let index = 0; index < event.target.files.length; index++) {
       this.readImage(event, index);
+      this.publicationData.append("file"+(index+1),aux[index]);
     }
 
     this.setState({ newImage: true });
@@ -123,7 +200,7 @@ class AdminSingleGroup extends Component {
   };
 
   render() {
-    const { redirect, files, error } = this.state;
+    const { redirect, files,name, description,carrer,type, error } = this.state;
 
     if(redirect){
       return (<Redirect to={`/Grupos/${isAuthenticated().user._id}`} />)
@@ -152,20 +229,20 @@ class AdminSingleGroup extends Component {
 
             <div className="container" id="contenedor">
               <div className="row">
-                <h5>Administrar grupo x</h5>
+              <h5>Administrar grupo {name} , {carrer}</h5>
               </div>
               <div className="row">
-                <div className="col-md-2">
+                <div className="col-md-4">
                   <button
-                    className="btn btn-success btn-outline"
+                    className="btn btn-success btn-block btn-outline"
                     data-toggle="modal"
                     data-target="#exampleModalCenter"
                   >
                     Nueva Publicacion
                   </button>
                 </div>
-                <div className="col-md-8">tab2</div>
-                <div className="col-md-2">tab3</div>
+                <div className="col-md-4">tab2</div>
+                <div className="col-md-4">tab3</div>
               </div>
             </div>
           </div>
@@ -200,7 +277,28 @@ class AdminSingleGroup extends Component {
               <div class="modal-body">
                 <div className="row">
                   <div className="col-md-12">
-                    <form encType="multipart/form-data">
+                    <form encType="multipart/form-data" id="formP">
+                      <div className="form-group" style={styles.input_group}>
+                          <label htmlFor="titleNew">Titulo:</label>
+                          <input
+                            type="text"
+                            onChange={this.handleChange("title")}
+                            className="form-control"
+                            id="titleNew"
+                            placeholder="Titulo..."
+                          />
+                        </div>
+                        <div className="form-group" style={styles.input_group}>
+                          <label htmlFor="descriptionN">Descripcion:</label>
+                          <textarea
+                            
+                            onChange={this.handleChange("descriptionN")}
+                            className="form-control"
+                            id="descriptionN"
+                            rows="5" cols="50"
+                            placeholder="Agrega una descripcion..."
+                          ></textarea>
+                        </div>
                       <input
                         name="files"
                         id="files"
@@ -271,48 +369,30 @@ class AdminSingleGroup extends Component {
                           );
                         })}
                       </Carousel>
+                      <div
+                        className="form-group text-center"
+                        style={styles.input_group}
+                      >
+                        <label htmlFor="type">Tipo:</label>
+                        <select className="form-control" id="type" onChange={this.handleChange("type")}>
+                                <option value ="activity">Actividad entregable</option>
+                                <option value ="support">Material de apoyo</option>
+                                <option value="notice">Aviso</option>
+                            </select>
+                      </div>
 
+                     {type === "activity" ? (<>
                       <div className="form-group" style={styles.input_group}>
-                        <label htmlFor="userName">Nombre del grupo:</label>
+                        <label htmlFor="expiration">Fecha limite:</label>
                         <input
-                          type="text"
-                          onChange={this.handleChange("name")}
+                          type="datetime-local"
+                          onChange={this.handleChange("expiration")}
                           className="form-control"
-                          id="groupName"
-                          placeholder="Nombre"
+                          id="expiration"
                         />
                       </div>
-                      <div
-                        className="form-group text-center"
-                        style={styles.input_group}
-                      >
-                        <label htmlFor="groupDescription">Descripcion:</label>
-                        <input
-                          type="text"
-                          onChange={this.handleChange("description")}
-                          className="form-control"
-                          id="groupDescription"
-                          placeholder="Ingresa una descripcion"
-                        />
-                      </div>
-                      <div
-                        className="form-group text-center"
-                        style={styles.input_group}
-                      >
-                        <label htmlFor="carrer">Carrera:</label>
-                        <select
-                          className="form-control"
-                          id="carrer"
-                          onChange={this.handleChange("carrer")}
-                        >
-                          <option select="true">ISC</option>
-                          <option>TICS</option>
-                          <option>II</option>
-                          <option>IIA</option>
-                          <option>IGE</option>
-                          <option>GASTRONOMIA</option>
-                        </select>
-                      </div>
+                     </>) : (<></>)}
+                    
 
                       <button
                         type="submit"
@@ -321,18 +401,22 @@ class AdminSingleGroup extends Component {
                       >
                         Aceptar
                       </button>
-                      <Link
-                        to={`/Grupos/${isAuthenticated().user._id}`}
+                      <button
+                        type="button"
+                        id="btnModalCancel"
                         className="btn btn-raised btn-danger ml-2"
+                        data-dismiss="modal"
+                        onClick={this.resetNew}
                       >
                         Cancelar
-                      </Link>
+                      </button>
                     </form>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button
+                  id="btnD"
                   type="button"
                   class="btn btn-raised btn-warning"
                   data-dismiss="modal"

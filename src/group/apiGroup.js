@@ -15,6 +15,21 @@ export const newGroup = (token, group) => {
         .catch(err => console.log(err));
 };
 
+export const newPublication = (token,groupId,publication) =>{
+    return fetch(`${process.env.REACT_APP_API_URL}/group/newPublication/${groupId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: publication
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+}
+
 export const updateGroup = (token, group,groupId) => {
     // console.log("USER DATA UPDATE: ", user);
     console.log(group);
