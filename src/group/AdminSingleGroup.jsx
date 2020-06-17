@@ -121,11 +121,21 @@ class AdminSingleGroup extends Component {
           const result = await newPublication(token,idGroup,this.publicationData);
           if(result.error || !result){
             console.log("Error fetch newPublication");
+            Swal.fire({
+              type: 'error',
+              title: 'Error',
+              text: 'No se pudo crear la publicacion',
+            })
           }else{
             console.log("Result: ",result);
             this.publicationData = new FormData();
             const btnD = document.querySelector("#btnModalCancel");
             btnD.click();
+            Swal.fire({
+              type: 'success',
+              title: 'Correcto',
+              text: 'Se ha creado la publicacion!',
+            })
             //modal.classList.remove("show");
             
           }

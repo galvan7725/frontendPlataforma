@@ -14,6 +14,7 @@ import es from "timeago.js/lib/lang/es";
 import { Link, Redirect } from "react-router-dom";
 import SearchUser from "../User/SearchUser";
 import Swal from "sweetalert2";
+import PublicationsTabs from "./PublicationsTabs";
 
 class SingleGroup extends Component {
     constructor() {
@@ -38,7 +39,7 @@ class SingleGroup extends Component {
             console.log("swipe");
         });
         //console.log(this.props.location.pathname);
-        $("#link_principal").addClass("active");
+        $("#link_grupos").addClass("active");
         const groupId = this.props.match.params.groupId;
         await this.init(groupId);
         timeago.register("es", es);
@@ -224,61 +225,11 @@ class SingleGroup extends Component {
                                                 )}
                                         </div>
                                         <div className="row">
-                                            <div className="tabs">
-                                                <div className="tab-2">
-                                                    <label style={{ color: "black" }} htmlFor="tab2-1">
-                                                        Todas
-                        </label>
-                                                    <input
-                                                        id="tab2-1"
-                                                        name="tabs-two"
-                                                        type="radio"
-                                                        defaultChecked={true}
-                                                    />
-                                                    <div>
-                                                        <h4 style={{ color: "black" }}>Tab One</h4>
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                            elit. Maecenas consequat id velit quis vestibulum.
-                                                            Nam id orci eu urna mollis porttitor. Nunc nisi
-                                                            ante, gravida at velit eu, aliquet sodales dui. Sed
-                                                            laoreet condimentum nisi a egestas.
-                          </p>
-                                                        <p>
-                                                            Donec interdum ante ut enim consequat, quis varius
-                                                            nulla dapibus. Vivamus mollis fermentum augue a
-                                                            varius. Vestibulum in sapien at lectus gravida
-                                                            lobortis vulputate sed metus. Duis scelerisque justo
-                                                            et maximus efficitur. Donec eu eleifend quam.
-                                                            Curabitur aliquet commodo sapien eget vestibulum.
-                                                            Vestibulum ante ipsum primis in faucibus orci luctus
-                                                            et ultrices posuere cubilia Curae; Vestibulum vel
-                                                            aliquet nunc, finibus posuere lorem. Suspendisse
-                                                            consectetur volutpat est ut ornare.
-                          </p>
-                                                    </div>
-                                                </div>
-                                                <div className="tab-2">
-                                                    <label style={{ color: "black" }} htmlFor="tab2-2">
-                                                        Realizadas
-                        </label>
-                                                    <input id="tab2-2" name="tabs-two" type="radio" />
-                                                    <div>
-                                                        <h4>Tab Two</h4>
-                                                        <p>
-                                                            Quisque sit amet turpis leo. Maecenas sed dolor mi.
-                                                            Pellentesque varius elit in neque ornare commodo ac
-                                                            non tellus. Mauris id iaculis quam. Donec eu felis
-                                                            quam. Morbi tristique lorem eget iaculis
-                                                            consectetur. Class aptent taciti sociosqu ad litora
-                                                            torquent per conubia nostra, per inceptos himenaeos.
-                                                            Aenean at tellus eget risus tempus ultrices. Nam
-                                                            condimentum nisi enim, scelerisque faucibus lectus
-                                                            sodales at.
-                          </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {group.publications.length === 0 ? (<>
+                                                <h2>No se han creado publicaciones</h2>
+                                            </>) : (<>
+                                                <PublicationsTabs publications={group.publications} />
+                                            </>)}
                                         </div>
 
                                         <div
