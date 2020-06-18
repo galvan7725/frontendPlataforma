@@ -15,6 +15,7 @@ import { Link, Redirect } from "react-router-dom";
 import SearchUser from "../User/SearchUser";
 import Swal from "sweetalert2";
 import PublicationsTabs from "./PublicationsTabs";
+import PublicationsAdminTabs from "./PublicationsAdminTabs";
 
 class SingleGroup extends Component {
     constructor() {
@@ -86,8 +87,10 @@ class SingleGroup extends Component {
 
                 try {
                     const result = await deleteUser(token, userId, groupId, teacherId);
+                    await console.log("Result:",result);
                     if (result.error || !result) {
                         Swal.fire("Error!", result.error, "error");
+                        console.log("Result: " + result);
                     } else {
                         Swal.fire({
                             icon: "success",
@@ -95,7 +98,7 @@ class SingleGroup extends Component {
                             showConfirmButton: false,
                             timer: 1500,
                         });
-                        this.setState({ group: result });
+                        this.setState({ group: result.result });
                     }
                 } catch (error) {
                     console.log(error);
@@ -109,7 +112,8 @@ class SingleGroup extends Component {
         //this.setState({group});
     };
     updateGroup = (group) => {
-        this.setState({ group: group });
+        console.log("updateGroup:",group);
+        this.setState({ group: group.result });
     };
 
     render() {
@@ -228,7 +232,13 @@ class SingleGroup extends Component {
                                             {group.publications.length === 0 ? (<>
                                                 <h2>No se han creado publicaciones</h2>
                                             </>) : (<>
-                                                <PublicationsTabs publications={group.publications} />
+                                                {isAuthenticated().user.role === 'admin' || isAuthenticated().user.role === 'teacher' ? (<>
+                                                    <PublicationsAdminTabs publications={group.publications} />
+                                                    
+                                                </>) : (<>
+                                                    <PublicationsTabs publications={group.publications} />
+                                                </>) }
+                                                
                                             </>)}
                                         </div>
 
@@ -316,7 +326,7 @@ class SingleGroup extends Component {
                                                     <div class="modal-body">
                                                         <div
                                                             className="row"
-                                                            style={{ height: "400px", maxHeight: "400px" }}
+                                                            style={{ height: "400px", maxHeight: "400px", overflow:"auto" }}
                                                         >
                                                             <div className="col-md-2"></div>
                                                             <div className="col-md-8">

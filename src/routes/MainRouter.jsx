@@ -14,6 +14,7 @@ import SingleGroup from '../group/SingleGroup';
 import SearchUser from '../User/SearchUser';
 import AdminSingleGroup from '../group/AdminSingleGroup';
 import EditGroup from '../group/EditGroup';
+import SinglePublication from '../publication/SinglePublication';
 
 
 const MainRouter = () => (
@@ -33,6 +34,7 @@ const MainRouter = () => (
             <PrivateRoute exact path="/Usuario/buscar" component={SearchUser} ></PrivateRoute>
             <PrivateRoute exact path="/Grupo/Administrador/:groupId" component={AdminSingleGroup}></PrivateRoute>
             <PrivateRoute exact path="/Grupo/editar/:groupId" component={EditGroup}></PrivateRoute>
+            <PrivateRoute exact path="/Grupo/publicaciones/publicacion/" component={SinglePublication}></PrivateRoute>
 
             {/* Ruta por defecto (Error 404) */}
             <Route component={NotFound}/>

@@ -55,6 +55,7 @@ import { Link  } from 'react-router-dom';
 
             }else{
                 this.setState({user:result});
+                //console.log(result);
             }
         } catch (error) {
             console.log(error);

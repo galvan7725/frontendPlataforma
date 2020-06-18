@@ -58,7 +58,9 @@ export default class SearchUser extends Component {
 
               try {
                   const result = await newUser(token,aux2,aux1);
+                  await console.log("Result",result);
                   if(result.error || !result){
+                      console.log("Result error:",result);
                     Swal.fire(
                         'Error!',
                         result.error,
@@ -72,12 +74,12 @@ export default class SearchUser extends Component {
                         timer: 1500
                       })
                       //this.props.group = result;
-                      console.log(result);
+                      console.log("try result:",result.result);
 
-                      this.props.updateGroup(result.result);
+                      this.props.updateGroup(result);
                   }
               } catch (error) {
-                  console.log(error);
+                  console.log("Error",error);
                   Swal.fire(
                     'Error!',
                      error,
