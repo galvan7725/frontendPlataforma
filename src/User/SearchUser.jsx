@@ -61,14 +61,14 @@ export default class SearchUser extends Component {
                   await console.log("Result",result);
                   if(result.error || !result){
                       console.log("Result error:",result);
-                    Swal.fire(
-                        'Error!',
-                        result.error,
-                        'error'
-                      )
+                      Swal.fire({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'No se pudo agregar el usuario',
+                      })
                   }else{
                     Swal.fire({
-                        icon: 'success',
+                        type: 'success',
                         title: 'Se añadio el usuario',
                         showConfirmButton: false,
                         timer: 1500
@@ -80,11 +80,11 @@ export default class SearchUser extends Component {
                   }
               } catch (error) {
                   console.log("Error",error);
-                  Swal.fire(
-                    'Error!',
-                     error,
-                    'error'
-                  )
+                  Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'No se pudo agregar el usuario',
+                  })
               }  
 
               
