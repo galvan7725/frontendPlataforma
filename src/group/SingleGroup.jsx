@@ -89,11 +89,15 @@ class SingleGroup extends Component {
                     const result = await deleteUser(token, userId, groupId, teacherId);
                     await console.log("Result:",result);
                     if (result.error || !result) {
-                        Swal.fire("Error!", result.error, "error");
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Error',
+                            text: 'No se pudo eliminar el usuario',
+                          })
                         console.log("Result: " + result);
                     } else {
                         Swal.fire({
-                            icon: "success",
+                            type: "success",
                             title: "Se elimino el usuario",
                             showConfirmButton: false,
                             timer: 1500,
@@ -102,7 +106,11 @@ class SingleGroup extends Component {
                     }
                 } catch (error) {
                     console.log(error);
-                    Swal.fire("Error!", error, "error");
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'No se pudo eliminar el usuario',
+                      })
                 }
             } else {
                 //calcel
