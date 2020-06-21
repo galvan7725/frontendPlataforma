@@ -8,6 +8,7 @@ import { getGroup } from '../group/apiGroup';
 import { getPublication } from './apiPublication';
 import { isAuthenticated } from '../auth';
 import { Redirect } from 'react-router-dom';
+import FileController from './FileController';
 
 
 export default class SinglePublication extends Component {
@@ -121,9 +122,12 @@ export default class SinglePublication extends Component {
                         {publication.items.map((item, index) =>{
                             return (<>
                                 {console.log("Item: ",item)}
+                                <FileController fileId={item._id} publicationId ={publication._id} ></FileController>
+                                {/*
                                 <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/${publication._id}/${item._id}`} target="_blank" rel="noopener noreferrer">
                                     Item {index}
                                 </a>
+                                */}
                             </>)
                         }
 

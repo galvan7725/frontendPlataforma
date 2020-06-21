@@ -198,7 +198,7 @@ class AdminSingleGroup extends Component {
     let reader = new FileReader();
     if (event.target.files[index].type == "application/pdf") {
       console.log("Archivo pdf");
-    } else if (event.target.files[index].type == "application/msword") {
+    } else if (event.target.files[index].type == "application/msword" || event.target.files[index].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       console.log("Archivo word");
     } else {
       reader.onload = function () {
@@ -314,7 +314,7 @@ class AdminSingleGroup extends Component {
                         id="files"
                         className="inputfile"
                         type="file"
-                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
+                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/* .xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
                         onChange={this.handleChange("file")}
                         multiple
                       />
@@ -326,11 +326,11 @@ class AdminSingleGroup extends Component {
                       <hr />
                       <Carousel style={{ width: "200px" }}>
                         {files.map((file, i) => {
-                          console.log("File: ", file);
+                          console.log("File: ", file.type);
                           return (
                             <div key={i}>
                               {file.type == "application/pdf" ||
-                              file.type == "application/msword" ? (
+                              file.type == "application/msword" || "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
                                 <>
                                   {file.type == "application/pdf" ? (
                                     <>
