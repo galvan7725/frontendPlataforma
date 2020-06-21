@@ -241,10 +241,10 @@ class SingleGroup extends Component {
                                                 <h2>No se han creado publicaciones</h2>
                                             </>) : (<>
                                                 {isAuthenticated().user.role === 'admin' || isAuthenticated().user.role === 'teacher' ? (<>
-                                                    <PublicationsAdminTabs publications={group.publications} />
+                                                    <PublicationsAdminTabs publications={group.publications} idGroup={group._id} groupName={group.name} />
                                                     
                                                 </>) : (<>
-                                                    <PublicationsTabs publications={group.publications} />
+                                                    <PublicationsTabs publications={group.publications} idGroup={group._id} groupName={group.name} />
                                                 </>) }
                                                 
                                             </>)}

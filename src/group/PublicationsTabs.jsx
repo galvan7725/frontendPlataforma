@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
   render() {
 
-    const { publications } = this.props;
+    const { publications,idGroup,groupName } = this.props;
     console.log("Publications: ",publications);
 
     return (
@@ -33,7 +33,11 @@ import { Link } from "react-router-dom";
                   return (<>
                     <div className="row">
                         <div className="col-md-12">
-                            <p>{publication.title},{publication.description}</p>
+                        <Link to={{
+                               pathname:`/Grupo/publicaciones/publicacion/`,
+                               state:{params:{idPublication:publication._id,idGroup:idGroup,groupName:groupName}}
+                            
+                        }} style={{color:"black"}} > <p>{publication.title},{publication.description}</p> </Link> 
                         </div>
                     </div>
                   </>)

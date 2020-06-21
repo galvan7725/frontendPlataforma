@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
  class PublicationsAdminTabs extends Component {
     render() {
-        const { publications } = this.props;
+        const { publications,idGroup,groupName } = this.props;
 
 
         return (
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
                         <div className="col-md-12">
                            <Link to={{
                                pathname:`/Grupo/publicaciones/publicacion/`,
-                               state:{params:{idPublication:publication._id}}
+                               state:{params:{idPublication:publication._id,idGroup:idGroup,groupName:groupName}}
                             
                         }} style={{color:"black"}} > <p>{publication.title},{publication.description}</p> </Link> 
                         </div>
