@@ -54,6 +54,67 @@ import { isAuthenticated } from '../auth';
         }
     }
     
+    renderSwitch = (type) => {
+        switch (String(type)) {
+            case "application/pdf":
+              return(
+                <>
+                 <i className ="fa fa-file-pdf" style={{color:"red"}}></i>
+                </>
+              )
+              break;
+            case "application/msword":  
+               return(
+                <>
+                    <i className="fa fa-file-word" style={{color:"blue"}}></i>
+                </>
+               )       
+            break;
+            case  "application/vnd.openxmlformats-officedocument.wordprocessingml.document" :  
+            return(
+                <>
+                <i className="fa fa-file-word" style={{color:"blue"}}></i>
+            </>
+            )       
+         break;
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation" :
+            return(
+             <>
+                <i className="fa fa-file-powerpoint" style={{color:"orange"}}></i>
+           </>
+            )       
+         break;
+               case "application/vnd.ms-powerpoint":
+         return(
+            <>
+                <i className="fa fa-file-powerpoint" style={{color:"orange"}}></i>
+           </>
+          )       
+       break;
+         case "application/vnd.ms-excel" :
+          return(
+           <>
+            <i className="fa fa-file-excel" style={{color:"green"}}></i>
+           </>
+          )       
+       break;
+       case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" :
+          return(
+           <>
+            <i className="fa fa-file-excel" style={{color:"green"}}></i>
+           </>
+          )       
+       break;
+          
+            default:
+              return(
+                <>
+                <i className="fa fa-file-download"></i>
+                </>
+              )
+              }
+    }
+    
 
     render() {
         const {File,fileId,publicationId,fileType} = this.state;
@@ -64,8 +125,8 @@ import { isAuthenticated } from '../auth';
                 <h2>Loading...</h2>
                </>) : (<>
                {console.log("File is not null")}
-               <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${fileId}`} target="_blank" rel="noopener noreferrer">
-                   file
+               <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${fileId}/${File.title}`} target="_blank" rel="noopener noreferrer">
+                        {File.title}{" "}{this.renderSwitch(File.file.contentType)}
                </a>
                {
                    /*

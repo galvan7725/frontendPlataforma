@@ -118,6 +118,12 @@ export default class SinglePublication extends Component {
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col-md-12 text-center">
+                            <p>{publication.description}</p>
+                    </div>
+                    
+                </div>
+                <div className="row">
                     <div className="col-md-12">
                         {publication.items.map((item, index) =>{
                             return (<>
@@ -135,10 +141,19 @@ export default class SinglePublication extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-4"></div>
-                    <div className="col-md-4"></div>
-                    <div className="col-md-4"></div>
+                    <div className="col-md-6">
+                        {publication.mode === "activity" ? (<>
+                            <form>
+                                <input type="file" name="aa" id="aa" />
+                            </form>
+                        </>) : (<></>)}
+                    </div>
+                    <div className="col-md-6">
+                        <p>comments</p>
+                    </div>
                 </div>
+               
+                
             </div>
 </div>
 </div>

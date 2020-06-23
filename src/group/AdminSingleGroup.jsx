@@ -12,6 +12,8 @@ import { Carousel } from "react-responsive-carousel";
 import logo from "../logo.svg";
 import logoPDF from "../images/pdf.png";
 import logoWord from "../images/doc.png";
+import logoPower from '../images/power.png';
+import logoExcel from '../images/excel.png';
 import Swal from 'sweetalert2';
 
 class AdminSingleGroup extends Component {
@@ -196,6 +198,35 @@ class AdminSingleGroup extends Component {
 
   readImage = (event, index) => {
     let reader = new FileReader();
+    switch (event.target.files[index].type) {
+      case "application/pdf":
+        console.log("Archivo pdf");
+        break;
+      case "application/msword" :
+        console.log("Archivo word");
+        break;  
+        case  "application/vnd.openxmlformats-officedocument.wordprocessingml.document" :
+          console.log("Archivo word");
+          break;  
+      case "application/vnd.openxmlformats-officedocument.presentationml.presentation" :
+        console.log("Archivo powerpoint");
+        break;
+        case "application/vnd.ms-powerpoint":
+          console.log("Archivo powerpoint");
+          break;  
+      case "application/vnd.ms-excel" || "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" :
+          console.log("Archivo excel");
+        break;
+      default:
+        reader.onload = function () {
+          var output = document.getElementById("img" + index);
+          output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[index]);
+        break;
+    }
+
+    /*
     if (event.target.files[index].type == "application/pdf") {
       console.log("Archivo pdf");
     } else if (event.target.files[index].type == "application/msword" || event.target.files[index].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
@@ -207,7 +238,125 @@ class AdminSingleGroup extends Component {
       };
       reader.readAsDataURL(event.target.files[index]);
     }
+    */
   };
+
+  renderSwitch = (type,i) => {
+    switch (String(type)) {
+      case "application/pdf":
+        return(
+          <>
+            <img
+              id={`img${i}`}
+              src={logoPDF}
+              alt="loading..."
+              style={{
+                height: "300px",
+                maxHeight: "300px",
+                width: "auto",
+              }}
+            />
+          </>
+        )
+        break;
+      case "application/msword":  
+         return(
+          <>
+          <img
+            id={`img${i}`}
+            src={logoWord}
+            alt="loading..."
+            style={{
+              height: "400px",
+              maxHeight: "400px",
+              width: "auto",
+            }}
+          />
+        </>
+         )       
+      break;
+      case  "application/vnd.openxmlformats-officedocument.wordprocessingml.document" :  
+      return(
+       <>
+       <img
+         id={`img${i}`}
+         src={logoWord}
+         alt="loading..."
+         style={{
+           height: "400px",
+           maxHeight: "400px",
+           width: "auto",
+         }}
+       />
+     </>
+      )       
+   break;
+      case "application/vnd.openxmlformats-officedocument.presentationml.presentation" :
+      return(
+       <>
+       <img
+         id={`img${i}`}
+         src={logoPower}
+         alt="loading..."
+         style={{
+           height: "400px",
+           maxHeight: "400px",
+           width: "auto",
+         }}
+       />
+     </>
+      )       
+   break;
+         case "application/vnd.ms-powerpoint":
+   return(
+     <>
+     <img
+       id={`img${i}`}
+       src={logoPower}
+       alt="loading..."
+       style={{
+         height: "400px",
+         maxHeight: "400px",
+         width: "auto",
+       }}
+     />
+   </>
+    )       
+ break;
+   case "application/vnd.ms-excel" || "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" :
+    return(
+     <>
+     <img
+       id={`img${i}`}
+       src={logoExcel}
+       alt="loading..."
+       style={{
+         height: "400px",
+         maxHeight: "400px",
+         width: "auto",
+       }}
+     />
+   </>
+    )       
+ break;
+    
+      default:
+        return(
+          <>
+        <img
+          id={`img${i}`}
+          alt="loading..."
+          style={{
+            height: "400px",
+            maxHeight: "400px",
+            width: "auto",
+          }}
+        />
+      </>
+        )
+        }
+        
+  }
 
   render() {
     const { redirect, files,name, description,carrer,type, error } = this.state;
@@ -329,50 +478,12 @@ class AdminSingleGroup extends Component {
                           console.log("File: ", file.type);
                           return (
                             <div key={i}>
-                              {file.type == "application/pdf" ||
-                              file.type == "application/msword" || "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
-                                <>
-                                  {file.type == "application/pdf" ? (
-                                    <>
-                                      <img
-                                        id={`img${i}`}
-                                        src={logoPDF}
-                                        alt="loading..."
-                                        style={{
-                                          height: "300px",
-                                          maxHeight: "300px",
-                                          width: "auto",
-                                        }}
-                                      />
-                                    </>
-                                  ) : (
-                                    <>
-                                      <img
-                                        id={`img${i}`}
-                                        src={logoWord}
-                                        alt="loading..."
-                                        style={{
-                                          height: "400px",
-                                          maxHeight: "400px",
-                                          width: "auto",
-                                        }}
-                                      />
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  <img
-                                    id={`img${i}`}
-                                    alt="loading..."
-                                    style={{
-                                      height: "400px",
-                                      maxHeight: "400px",
-                                      width: "auto",
-                                    }}
-                                  />
-                                </>
-                              )}
+                              
+                               {
+                                 this.renderSwitch(file.type,i)    
+                               }
+                              
+                                  
 
                               <p className="legend">{file.name}</p>
                             </div>
