@@ -180,7 +180,7 @@ import { Link } from 'react-router-dom';
     }
 
     render() {
-        const { publications,idGroup,groupName, } = this.props;
+        const { publications} = this.props;
         const { todo, act,aviso,apoyo } = this.state;
         if(todo === false && act === false && aviso === false && apoyo === false){
             this.setState({todo: true});
