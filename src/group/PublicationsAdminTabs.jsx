@@ -22,7 +22,6 @@ import { Link } from 'react-router-dom';
         const { publications,idGroup,groupName } = this.props;
        
         this.setState({publications:publications.reverse(),idGroup,groupName});
-        const c_todo = document.querySelector("#todo");
     }
 
     handleChange = name => event => {
