@@ -9,6 +9,7 @@ import { getPublication } from './apiPublication';
 import { isAuthenticated } from '../auth';
 import { Redirect } from 'react-router-dom';
 import FileController from './FileController';
+import ImageController from './ImageController';
 
 
 export default class SinglePublication extends Component {
@@ -20,7 +21,8 @@ export default class SinglePublication extends Component {
             redirect:false,
             publication:{comments:[],items:[],group:{users:[]}},
             groupId:"",
-            groupName :""
+            groupName :"",
+            imageFiles:[]
             
         }
     }
@@ -59,13 +61,27 @@ export default class SinglePublication extends Component {
             if(!this.comprobation(result.group.users) && result.group.teacher !== isAuthenticated().user._id){
                 this.setState({redirect:true});
             }
-            
+           //this.setState({imageFiles:this.getImageFiles(result.items)});
+           const res =  this.getImageFiles(result.items);
+           this.setState({imageFiles:res});
             console.log("result", result);
 
         } catch (error) {
             console.log(error);
         }
 
+    }
+
+    getImageFiles =(files)=>{
+        //console.log("Files",files);
+        let aux = [];
+        for (let index = 0; index < files.length; index++) {
+            if(files[index].file.contentType == "image/jpeg" || files[index].file.content=="image/png"){
+                aux.push(files[index]);
+            }
+        }
+        //console.log("ImageFiles:",aux);
+        return aux;
     }
 
     comprobation = (users)=>{
@@ -85,7 +101,7 @@ export default class SinglePublication extends Component {
 
     render() {
 
-        const { redirect,publication, groupId,groupName } = this.state;
+        const { redirect,publication,groupName,imageFiles } = this.state;
 
         if(redirect){
             return(
@@ -125,10 +141,13 @@ export default class SinglePublication extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-12">
+                        {imageFiles.length != 0 ? (<>
+                            <ImageController files={imageFiles} publicationId ={publication._id}/>
+                        </>) : (<></>)}
                         {publication.items.map((item, index) =>{
                             return (<>
                                 {console.log("Item: ",item)}
-                                <FileController fileId={item._id} publicationId ={publication._id} ></FileController>
+                                    <FileController fileId={item._id} publicationId ={publication._id} ></FileController>
                                 {/*
                                 <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/${publication._id}/${item._id}`} target="_blank" rel="noopener noreferrer">
                                     Item {index}

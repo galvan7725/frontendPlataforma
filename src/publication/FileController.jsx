@@ -105,6 +105,13 @@ import { isAuthenticated } from '../auth';
            </>
           )       
        break;
+        case "image/jpeg" :    
+       return(
+         <>
+          <i className="fa fa-file-image" style={{color:"green"}}></i>
+         </>
+        )       
+     break;
           
             default:
               return(
@@ -122,12 +129,21 @@ import { isAuthenticated } from '../auth';
         return (
             <div>
                {File == null ? (<>
-                <h2>Loading...</h2>
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
                </>) : (<>
-               {console.log("File is not null")}
-               <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${fileId}/${File.title}`} target="_blank" rel="noopener noreferrer">
+               {console.log("File is not null",File.file.contentType)}
+               {File.file.contentType == "image/jpeg" ? (<>
+                
+               </>) : (<>
+                <a style={{color:"black"}} href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${fileId}/${File.title}`} target="_blank" rel="noopener noreferrer">
                         {File.title}{" "}{this.renderSwitch(File.file.contentType)}
                </a>
+               </>)}
+               
                {
                    /*
                 <FileViewer
