@@ -4,6 +4,19 @@ import { Link } from "react-router-dom";
  class PublicationsTabs extends Component {
 
 
+  getColorLink =(mode) => {
+    switch(mode){
+      case "activity":
+        return "alert alert-primary";
+      break;
+      case "notice":
+        return "alert alert-danger";
+      break;
+      default:
+       return "alert alert-dark"
+        break  
+    }
+  }
 
   render() {
 
@@ -33,11 +46,14 @@ import { Link } from "react-router-dom";
                   return (<>
                     <div className="row">
                         <div className="col-md-12">
-                        <Link to={{
+                          <div className={this.getColorLink(publication.mode)} role="alert">
+                          <Link to={{
                                pathname:`/Grupo/publicaciones/publicacion/`,
                                state:{params:{idPublication:publication._id,idGroup:idGroup,groupName:groupName}}
                             
                         }} style={{color:"black"}} > <p>{publication.title},{publication.description}</p> </Link> 
+                          </div>
+                        
                         </div>
                     </div>
                   </>)
