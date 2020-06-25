@@ -32,17 +32,23 @@ import React, { Component } from 'react'
         if(index==0){
             return (<>
                 <div class="carousel-item active">
+                <a href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${file._id}/${file.title}`} target="_blank" rel="noopener noreferrer">
                     <img  src={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${file._id}/${file.title}`} alt={file.title} style={{height:"480px",width:"auto"}}/>
                         <div class="carousel-caption d-none d-md-block">
+                            <button className="btn btn-raised btn-primary">Ver imagen</button>
                         </div>
+                  </a>      
                 </div>
             </>)
         }else{
             return(<>
                 <div class="carousel-item">
+                <a href={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${file._id}/${file.title}`} target="_blank" rel="noopener noreferrer">
                 <img src={`${process.env.REACT_APP_API_URL}/publication/file/path/${publicationId}/${file._id}/${file.title}`} alt={file.title} style={{height:"480px",width:"auto"}}/>
                         <div class="carousel-caption d-none d-md-block">
+                            <button className="btn btn-raised btn-primary">Ver imagen</button>
                         </div>
+                </a>        
                  </div>
             </>)
         }

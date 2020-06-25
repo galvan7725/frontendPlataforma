@@ -3,13 +3,14 @@ import NavBar from '../core/NavBar';
 import '../App.css';
 import $ from 'jquery';
 import SideBar from '../core/SideBar';
-import Hammer from 'hammerjs';
-import { getGroup } from '../group/apiGroup';
 import { getPublication } from './apiPublication';
 import { isAuthenticated } from '../auth';
 import { Redirect } from 'react-router-dom';
 import FileController from './FileController';
 import ImageController from './ImageController';
+import PublicationEvaluation from './PublicationEvaluation';
+
+
 
 
 export default class SinglePublication extends Component {
@@ -22,13 +23,17 @@ export default class SinglePublication extends Component {
             publication:{comments:[],items:[],group:{users:[]}},
             groupId:"",
             groupName :"",
-            imageFiles:[]
+            imageFiles:[],
+            error:"",
+            filesE:[],
+            countFilesE:0,
             
         }
     }
 
     componentDidMount = () =>{
         let window = document.querySelector('#contenedor');
+        this.activityData = new FormData();
         //console.log(window);
         /*
         let hammer = new Hammer(window);
@@ -72,6 +77,8 @@ export default class SinglePublication extends Component {
 
     }
 
+   
+
     getImageFiles =(files)=>{
         //console.log("Files",files);
         let aux = [];
@@ -101,7 +108,7 @@ export default class SinglePublication extends Component {
 
     render() {
 
-        const { redirect,publication,groupName,imageFiles } = this.state;
+        const { redirect,publication,groupName,imageFiles,filesE } = this.state;
 
         if(redirect){
             return(
@@ -161,11 +168,12 @@ export default class SinglePublication extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        {publication.mode === "activity" ? (<>
-                            <form>
-                                <input type="file" name="aa" id="aa" />
-                            </form>
-                        </>) : (<></>)}
+                        {publication.mode === "activity" && isAuthenticated().user.role != "admin" && isAuthenticated().user.role != "teacher" ? (<>
+                            <h4>Entrega:</h4>
+                            <PublicationEvaluation filesE={filesE} />
+                        </>) : (<>
+                        <h4>Entregas</h4>
+                        </>)}
                     </div>
                     <div className="col-md-6">
                         <p>comments</p>
