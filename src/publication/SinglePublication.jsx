@@ -9,6 +9,8 @@ import { Redirect } from 'react-router-dom';
 import FileController from './FileController';
 import ImageController from './ImageController';
 import PublicationEvaluation from './PublicationEvaluation';
+import moment from 'moment';
+import 'moment/locale/es-us';
 
 
 
@@ -27,6 +29,7 @@ export default class SinglePublication extends Component {
             error:"",
             filesE:[],
             countFilesE:0,
+            isBefore:true
             
         }
     }
@@ -34,6 +37,8 @@ export default class SinglePublication extends Component {
     componentDidMount = () =>{
         let window = document.querySelector('#contenedor');
         this.activityData = new FormData();
+        moment().locale('es-us');
+        moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
         //console.log(window);
         /*
         let hammer = new Hammer(window);
@@ -105,6 +110,17 @@ export default class SinglePublication extends Component {
 
     }
 
+    getColorDate =(date) =>{
+        if(moment().isBefore(date)){
+            console.log("true");
+            return "alert alert-primary";
+        }else{
+            console.log("false");
+            return "alert alert-danger";
+            
+        }
+    }
+
 
     render() {
 
@@ -143,6 +159,12 @@ export default class SinglePublication extends Component {
                 <div className="row">
                     <div className="col-md-12 text-center">
                             <p>{publication.description}</p>
+                            {publication.mode === "activity" ? (<>
+                                <p>Publicado :{" "}{moment(publication.created).format("dddd, MMMM Do YYYY, h:mm:ss a")}{". "}({moment(publication.created).fromNow()})</p>
+                                <p className={this.getColorDate(publication.expiration)} >Fecha de entrega:{" "}{moment(publication.expiration).format("dddd, MMMM Do YYYY, h:mm:ss a")}{". "}({moment(publication.expiration).fromNow()})</p>
+                            </>) : (<>
+                                <p>Publicado :{" "}{moment(publication.created).format("dddd, MMMM Do YYYY, h:mm:ss a")}{". "}({moment(publication.created).fromNow()})</p>
+                            </>)}
                     </div>
                     
                 </div>
@@ -168,11 +190,24 @@ export default class SinglePublication extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        {publication.mode === "activity" && isAuthenticated().user.role != "admin" && isAuthenticated().user.role != "teacher" ? (<>
-                            <h4>Entrega:</h4>
-                            <PublicationEvaluation filesE={filesE} />
+                        {isAuthenticated().user.role != "admin" && isAuthenticated().user.role != "teacher" ? (<>
+                            {publication.mode === "activity" ? (<>
+                                {moment().isBefore(publication.expiration) ? (<>
+                                    <h4>Entrega:</h4>
+                                    <PublicationEvaluation filesE={filesE} />   
+                                </>) : (<>
+                                    <p className="alert alert-danger">La fecha limite de entrega ha expirado. <span>&#128546;</span></p>
+                                </>)}
+                                
+                            </>) : (<>
+                            
+                            </>)}
+                            
                         </>) : (<>
-                        <h4>Entregas</h4>
+                        {publication.mode === "activity" ? (<>
+                            <h4>Entregas</h4>
+                        </>) : (<></>)}
+                        
                         </>)}
                     </div>
                     <div className="col-md-6">

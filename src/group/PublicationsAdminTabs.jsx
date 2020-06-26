@@ -67,7 +67,7 @@ import { Link } from 'react-router-dom';
             return "alert alert-primary";
           break;
           case "notice":
-            return "alert alert-danger";
+            return "alert alert-warning";
           break;
           default:
            return "alert alert-dark"

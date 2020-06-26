@@ -225,7 +225,7 @@ import { Carousel } from "react-responsive-carousel";
         event.preventDefault();
         const form = document.querySelector("#formP");
         form.reset();
-        this.setState({files:[],title:"",descriptionN:"",type:"activity",expiration:""});
+        this.setState({files:[],countFiles:0});
       }
     
       clearFiles = () =>{
@@ -244,7 +244,7 @@ import { Carousel } from "react-responsive-carousel";
   }
     
     render() {
-        const {files} = this.state;
+        const {files,countFiles} = this.state;
 
         return (
             <>
@@ -281,12 +281,13 @@ import { Carousel } from "react-responsive-carousel";
                           );
                         })}
                       </Carousel>
-                      <button
+                      {countFiles === 0 ? (<></>):(<>
+                        <button
                         type="submit"
                         onClick={this.clickSubmit}
                         className="btn btn-raised btn-primary"
                       >
-                        Aceptar
+                        Enviar
                       </button>
                       <button
                         type="button"
@@ -297,6 +298,8 @@ import { Carousel } from "react-responsive-carousel";
                       >
                         Cancelar
                       </button>
+                      </>)}
+                      
                  </form>  
             </>
         )
