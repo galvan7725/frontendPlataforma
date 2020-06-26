@@ -11,6 +11,7 @@ import ImageController from './ImageController';
 import PublicationEvaluation from './PublicationEvaluation';
 import moment from 'moment';
 import 'moment/locale/es-us';
+import CommentsPublication from './CommentsPublication';
 
 
 
@@ -211,7 +212,11 @@ export default class SinglePublication extends Component {
                         </>)}
                     </div>
                     <div className="col-md-6">
-                        <p>comments</p>
+                        {publication._id === undefined ? (<>
+                            <p>loading...</p>
+                        </>) : (<>
+                            <CommentsPublication publicationId={publication._id}/>
+                        </>) }
                     </div>
                 </div>
                
