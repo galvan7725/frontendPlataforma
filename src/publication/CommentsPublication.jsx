@@ -61,7 +61,7 @@ import { isAuthenticated } from '../auth';
             },
             btnSearch:{
                 height:"40px",
-                marginTop:"20px"
+                marginTop:"-6px"
             },
             cardTitle:{
                 display: "flex",
