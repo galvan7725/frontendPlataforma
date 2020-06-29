@@ -12,6 +12,7 @@ import PublicationEvaluation from './PublicationEvaluation';
 import moment from 'moment';
 import 'moment/locale/es-us';
 import CommentsPublication from './CommentsPublication';
+import LinkController from './LinkController';
 
 
 
@@ -23,7 +24,7 @@ export default class SinglePublication extends Component {
         super(props);
         this.state = {
             redirect:false,
-            publication:{comments:[],items:[],group:{users:[]}},
+            publication:{comments:[],items:[],group:{users:[]},itemLinks:[]},
             groupId:"",
             groupName :"",
             imageFiles:[],
@@ -36,7 +37,6 @@ export default class SinglePublication extends Component {
     }
 
     componentDidMount = () =>{
-        let window = document.querySelector('#contenedor');
         this.activityData = new FormData();
         moment().locale('es-us');
         moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -185,8 +185,25 @@ export default class SinglePublication extends Component {
                                 */}
                             </>)
                         }
-
                         )}
+                        {publication.itemLinks.length === 0 ? (<></>) : (<>
+                        
+                            {publication.itemLinks.map((item,i)=>{
+                                return (<div className="row">
+                                    <div className="col-md-2"></div>
+                                    <div className="col-md-8">
+                                        <LinkController link ={item.url} />
+                                    </div>
+                                    <div className="col-md-2"></div>
+                                </div>
+
+                                )
+                        })}       
+
+                        </>)
+                        
+                        
+                        }
                     </div>
                 </div>
                 <div className="row">

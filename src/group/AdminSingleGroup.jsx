@@ -33,7 +33,8 @@ class AdminSingleGroup extends Component {
       descriptionN:"",
       type:"activity",
       expiration:"",
-      countFiles:0
+      countFiles:0,
+      enlaces:""
     };
   }
 
@@ -96,12 +97,21 @@ class AdminSingleGroup extends Component {
     //console.log("Form", this.publicationData);
   };
 
+  getArrayLinks = ()=>{
+    const { enlaces } = this.state;
+    let auxLinks = [];
+    auxLinks = enlaces.split(",");
+    return auxLinks;
+
+  }
+
 
   clickSubmit = async (event) => {
     event.preventDefault();
     const {idGroup,files,type,countFiles} = this.state;
     this.publicationData.append("type",type);
     this.publicationData.append("countFiles",countFiles);
+    this.publicationData.append("itemLinks",this.getArrayLinks());
     const token = isAuthenticated().token;
 
     console.log(files);
@@ -359,7 +369,7 @@ class AdminSingleGroup extends Component {
   }
 
   render() {
-    const { redirect, files,name, description,carrer,type, error } = this.state;
+    const { redirect, files,name, description,carrer,type, error,enlaces } = this.state;
 
     if(redirect){
       return (<Redirect to={`/Grupos/${isAuthenticated().user._id}`} />)
@@ -458,6 +468,17 @@ class AdminSingleGroup extends Component {
                             placeholder="Agrega una descripcion..."
                           ></textarea>
                         </div>
+                        <div
+                        className="form-group text-center"
+                        style={styles.input_group}
+                      >
+                        <label htmlFor="type">Tipo:</label>
+                        <select className="form-control" id="type" onChange={this.handleChange("type")}>
+                                <option value ="activity">Actividad entregable</option>
+                                <option value ="support">Material de apoyo</option>
+                                <option value="notice">Aviso</option>
+                            </select>
+                      </div>
                       <input
                         name="files"
                         id="files"
@@ -490,17 +511,19 @@ class AdminSingleGroup extends Component {
                           );
                         })}
                       </Carousel>
-                      <div
-                        className="form-group text-center"
-                        style={styles.input_group}
-                      >
-                        <label htmlFor="type">Tipo:</label>
-                        <select className="form-control" id="type" onChange={this.handleChange("type")}>
-                                <option value ="activity">Actividad entregable</option>
-                                <option value ="support">Material de apoyo</option>
-                                <option value="notice">Aviso</option>
-                            </select>
-                      </div>
+                      
+                      <div className="form-group" style={styles.input_group}>
+                          <label htmlFor="descriptionN">Material extra:</label>
+                          <textarea
+                            
+                            onChange={this.handleChange("enlaces")}
+                            className="form-control"
+                            id="enlaces"
+                            rows="5" cols="50"
+                            placeholder="Agrega videos,blogs, articulos, etc."
+                            value={enlaces}
+                          ></textarea>
+                        </div>
 
                      {type === "activity" ? (<>
                       <div className="form-group" style={styles.input_group}>
