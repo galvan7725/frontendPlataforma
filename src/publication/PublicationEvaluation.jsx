@@ -121,7 +121,6 @@ import { Carousel } from "react-responsive-carousel";
                 />
               </>
             )
-            break;
           case "application/msword":  
              return(
               <>
@@ -137,7 +136,6 @@ import { Carousel } from "react-responsive-carousel";
               />
             </>
              )       
-          break;
           case  "application/vnd.openxmlformats-officedocument.wordprocessingml.document" :  
           return(
            <>
@@ -153,7 +151,6 @@ import { Carousel } from "react-responsive-carousel";
            />
          </>
           )       
-       break;
           case "application/vnd.openxmlformats-officedocument.presentationml.presentation" :
           return(
            <>
@@ -169,7 +166,6 @@ import { Carousel } from "react-responsive-carousel";
            />
          </>
           )       
-       break;
              case "application/vnd.ms-powerpoint":
        return(
          <>
@@ -185,7 +181,6 @@ import { Carousel } from "react-responsive-carousel";
          />
        </>
         )       
-     break;
        case "application/vnd.ms-excel" || "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" :
         return(
          <>
@@ -200,8 +195,7 @@ import { Carousel } from "react-responsive-carousel";
            }}
          />
        </>
-        )       
-     break;
+        )
         
           default:
             return(

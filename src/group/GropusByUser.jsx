@@ -31,6 +31,7 @@ import GroupsTabStudent from './GroupsTabStudent';
         this.setState({loading:true});
         let window = document.querySelector('#contenedor');
         //console.log(window);
+        /*
         let hammer = new Hammer(window);
         hammer.get('swipe').set({direction:Hammer.DIRECTION_RIGHT});
         hammer.on('swipe',()=>{
@@ -39,6 +40,7 @@ import GroupsTabStudent from './GroupsTabStudent';
             console.log("swipe");
         });
         console.log(this.props.location.pathname);
+        */
         $("#link_grupos").addClass('active');
         const user = isAuthenticated().user;
 
@@ -121,6 +123,8 @@ import GroupsTabStudent from './GroupsTabStudent';
                 case 'GASTRONOMIA':
                     groupsG.push(group);
                 break;
+                default:
+                break;    
             }
         });
         this.setState({groupsISC,groupsTICS,groupsII,groupsIGE,groupsIIA,groupsG});
@@ -137,15 +141,15 @@ import GroupsTabStudent from './GroupsTabStudent';
 
         return (
             <>
-            <div className="wrapper active">
+           <div className="wrapper active">
 
-            <NavBar />
+        <NavBar />
 
             <div className="main_body">
 
-           <SideBar/>
+            <SideBar/>
+            <div className="container" id="contenedor">
 
-        <div className="container" id="contenedor">
 
             {loading ? (<>
                 <div className="row">
@@ -182,14 +186,12 @@ import GroupsTabStudent from './GroupsTabStudent';
             </div>
             </>)}
 
+            </div>
+            </div>
+            </div>            
 
 
-            
-            
-        </div>
-</div>
-</div>
-            
+        
         </>
         )
     }

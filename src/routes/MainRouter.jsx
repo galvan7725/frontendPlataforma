@@ -1,4 +1,10 @@
 import React from 'react';
+import SideBar from '../core/SideBar';
+import NavBar from '../core/NavBar';
+import Wrapper from '../core/Wrapper';
+import Body from '../core/Body';
+import Container from '../core/Container';
+import '../App.css';
 import {Route , Switch} from 'react-router-dom';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
@@ -18,10 +24,9 @@ import SinglePublication from '../publication/SinglePublication';
 
 
 const MainRouter = () => (
- 
-
     <div>
-        <Switch>
+        
+    <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/Acceso" component={SignIn}></Route>
             <Route exact path="/Registro" component={SignUp}></Route>

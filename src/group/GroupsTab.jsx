@@ -46,7 +46,7 @@ import logo from '../logo.svg';
                     <div className="card-body" style={styles.cardBody}>
                      {groupsISC.map((group,i)=>{
                        return(
-                       <>
+                       <div key={i}>
                          <hr style={styles.separator}/>
 
                         <Link to={`/Grupo/${group._id}`}>
@@ -64,7 +64,7 @@ import logo from '../logo.svg';
                         </Link>
 
                        <hr style={styles.separator}/>                     
-                       </>
+                       </div>
                        )
                      })}
                     </div>
@@ -85,7 +85,7 @@ import logo from '../logo.svg';
                     <div className="card-body" style={styles.cardBody}>
                       {groupsTICS.map((group,i)=>{
                         return(
-                          <>
+                          <div key={i}>
                           <hr style={styles.separator}/>
                           
                           <Link to={`/Grupo/${group._id}`} >
@@ -103,7 +103,7 @@ import logo from '../logo.svg';
                           </Link>
                           
                         <hr style={styles.separator}/>                     
-                        </>
+                        </div>
                         )
                       })}                    </div>
                   </div>
@@ -159,7 +159,7 @@ import logo from '../logo.svg';
                     <div className="card-body" style={styles.cardBody}>
                       {groupsIGE.map((group,i)=>{
                         return(
-                          <>
+                          < div key={i} >
                           <hr style={styles.separator}/>
                           
                           <Link to={`/Grupo/${group._id}`} >
@@ -177,7 +177,7 @@ import logo from '../logo.svg';
                           </Link>
                           
                         <hr style={styles.separator}/>                     
-                        </>
+                        </div>
                         )
                       })}                    </div>
                   </div>

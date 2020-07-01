@@ -190,7 +190,7 @@ import { Redirect } from 'react-router-dom';
 
     render() {
 
-            const { name, email, about , error, redirect, loading, fileSize, newImage, noControl } = this.state;
+            const { name, email, about , error, redirect, loading, newImage, noControl } = this.state;
 
         const styles = {
             input_group : {

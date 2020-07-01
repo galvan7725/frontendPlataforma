@@ -60,6 +60,8 @@ import { isAuthenticated } from '../auth';
             case "user":
                 role= "Estudiante"
             break;
+           default:
+           break;      
             
         }
 
@@ -130,7 +132,7 @@ import { isAuthenticated } from '../auth';
                         { isAuthenticated().user.role ==="admin" ? (<>
                             <li>
                             <a href="#">
-                            <span className="icon"><i class="fa fa-shield" aria-hidden="true"></i></span>
+                            <span className="icon"><i className="fa fa-shield" aria-hidden="true"></i></span>
                             <span className="list">Administrador</span>
                             </a>
                         </li>
