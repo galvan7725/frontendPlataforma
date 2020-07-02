@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { getComments,newComment } from './apiPublication';
 import { isAuthenticated } from '../auth';
+import Swal from 'sweetalert2';
+import logo from '../logo.svg';
+import moment from 'moment';
+import 'moment/locale/es-us';
 
  class CommentsPublication extends Component {
 
@@ -10,15 +14,21 @@ import { isAuthenticated } from '../auth';
             text:"",
             error:"",
             loading: false,
-            publicationId:""
+            publicationId:"",
+            comments:[]
         }
     }
     componentDidMount = async() =>{
+        moment().locale('es-us');
+        moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+        this.setState({loading:true});
         const { publicationId } = this.props;
         const token = isAuthenticated().token;
         try {
-            const result = await getComments(token, publicationId);
-            console.log("Result: ",result);
+            const comments = await getComments(token, publicationId);
+            this.setState({ comments:comments.comments,loading: false});
+            console.log("Result: ",comments);
+            
         } catch (error) {
             console.log(error);
         }
@@ -41,6 +51,22 @@ import { isAuthenticated } from '../auth';
         }
         try {
             const response = await newComment(body,token);
+            if(response.error || !response){
+                Swal.fire({
+                    type: "Error",
+                    title:"Error",
+                    message: "No se pudo agregar el comentario"
+                });
+
+            }else{
+                Swal.fire({
+                    type: "success",
+                    title:"Correcto",
+                    message: "Se agrego el comentario"
+                })
+                this.setState({comments:response.comments,text:""})
+            }
+            
             console.log("Response: " + JSON.stringify(response));
         } catch (error) {
             console.log(error)
@@ -50,7 +76,7 @@ import { isAuthenticated } from '../auth';
 
     render() {
 
-        const {text} = this.state;
+        const {text, comments,loading} = this.state;
 
         const styles = {
             form : {
@@ -77,8 +103,35 @@ import { isAuthenticated } from '../auth';
         }
         return (
             <>
-            <div className="row" style={{maxHeight:"400px",overflow:"auto"}} >
-                <h4>comments</h4>
+            <h3>Comentarios</h3>
+            <div className="row" style={{maxHeight:"380px",overflow:"auto"}} >
+                {loading ? (<></>) : (<>
+                    {comments.length === 0 ? (<>
+                    <div className="row">
+                        <div className="col-md-12 text-center">
+                            <p>No hay comentarios.</p>
+                        </div>
+                    </div>
+                </>) : (<>
+                    {comments.map((comment, index)=>{
+                        return (
+                            <div className="comment-container" key={index}>
+                                <div className="comment-image">
+                                    <img  src={`${process.env.REACT_APP_API_URL}/user/photo/${comment.postedBy._id}`} onError={i => (i.target.src = `${logo}`)} alt="logo" />
+                                </div>
+                                <div className="comment-content">
+                                <small>{comment.postedBy.name}</small>
+                                <p>{comment.text}</p>
+                                <div className="comment-footer">
+                                <strong><i className="fa fa-comment-dots"></i>{moment(comment.created).fromNow()}</strong>
+                                <i class="icon-t fa fa-trash-alt"></i>
+                                </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </>)}
+                </>)}
             </div>
             <form style={styles.form}>
             <div className="form-group" style={styles.formGroup}>

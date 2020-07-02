@@ -126,6 +126,7 @@ export default class SinglePublication extends Component {
     render() {
 
         const { redirect,publication,groupName,imageFiles,filesE } = this.state;
+        console.log("Comments",publication.comments);
 
         if(redirect){
             return(
@@ -232,7 +233,7 @@ export default class SinglePublication extends Component {
                         {publication._id === undefined ? (<>
                             <p>loading...</p>
                         </>) : (<>
-                            <CommentsPublication publicationId={publication._id}/>
+                            <CommentsPublication publicationId={publication._id} comments={publication.comments}/>
                         </>) }
                     </div>
                 </div>
