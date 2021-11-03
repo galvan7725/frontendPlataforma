@@ -31,7 +31,7 @@
     "timeago-react": "^3.0.0",
     "timeago.js": "^4.0.2",
     "tippy.js": "^4.3.4",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
